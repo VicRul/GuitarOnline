@@ -11,7 +11,7 @@ public class BaseModel {
 	static ArrayList<Goods> goods = new ArrayList<Goods>();
 	static ArrayList<Basket> basket = new ArrayList<Basket>();
 	
-	// Hello GitHub!!!
+	// Hello GitHub!!! Hello Victor!
 
 	public static ArrayList<Goods> getGoods()
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
