@@ -10,6 +10,7 @@ public class BaseModel {
 
 	static ArrayList<Goods> goods = new ArrayList<Goods>();
 	static ArrayList<Basket> basket = new ArrayList<Basket>();
+	static ArrayList<Users> users = new ArrayList<Users>();
 
 	public static ArrayList<Goods> getGoods()
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
@@ -67,8 +68,6 @@ public class BaseModel {
 		rs.close();
 		return basket;
 	}
-	
-	
 	
 	public static boolean registrationUsers(String mail, String phone) {
 		
