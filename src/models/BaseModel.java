@@ -8,6 +8,7 @@ import java.util.HashMap;
 
 public class BaseModel {
 	
+	
 	static ArrayList<Goods> goods = new ArrayList<Goods>();
 	static ArrayList<Basket> basket = new ArrayList<Basket>();
 	static ArrayList<Users> users = new ArrayList<Users>();
