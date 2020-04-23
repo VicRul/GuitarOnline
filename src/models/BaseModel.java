@@ -9,6 +9,8 @@ import java.util.HashMap;
 public class BaseModel {
 	 
 	// 123
+	//123456
+	//12345678
 	static ArrayList<Goods> goods = new ArrayList<Goods>();
 	static ArrayList<Basket> basket = new ArrayList<Basket>();
 	static ArrayList<Users> users = new ArrayList<Users>();
