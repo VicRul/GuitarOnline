@@ -109,13 +109,13 @@ public class BaseModel {
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
 
-		addGoodsToBasket(2, 1);
-		addGoodsToBasket(1, 1);
-		addGoodsToBasket(6, 1);
+		registrationUsers("Виктор", "vic.1@mail.ru", "8-800-555-55-35", "VicRul", "VicRul");
+		registrationUsers("Александр", "al.1@mail.ru", "8-800-575-25-75", "AlOm", "AlOm");
+		registrationUsers("Егор", "eg.1@mail.ru", "8-800-566-51-15", "EgorAmur", "EgorAmur");
 
-		ArrayList<Basket> values = getGoodsFromBasket();
+		ArrayList<Users> values = getUsers();
 
-		for (Basket value : values) {
+		for (Users value : values) {
 			System.out.println(value);
 		}
 	}
