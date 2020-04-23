@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 public class BaseModel {
 
-	// Убрал цифровые комменты
+	// Убрал цифровые комменты.
 	static ArrayList<Goods> goods = new ArrayList<Goods>();
 	static ArrayList<Basket> basket = new ArrayList<Basket>();
 	static ArrayList<Users> users = new ArrayList<Users>();
