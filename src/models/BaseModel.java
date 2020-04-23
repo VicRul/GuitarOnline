@@ -70,9 +70,39 @@ public class BaseModel {
 		return basket;
 	}
 
-	public static boolean registrationUsers(String mail, String phone) {
+	public static boolean registrationUsers(String fio, String mail, String phone, String login, String password)
+			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
+			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
 
-		return false;
+		int id = ORM.findMaxId("id_user", "users") + 1;
+		HashMap<String, String> values = new HashMap<String, String>();
+		values.put("id_user", Integer.toString(id));
+		values.put("fio", fio);
+		values.put("e-mail", mail);
+		values.put("phone", phone);
+		values.put("login", login);
+		values.put("password", password);
+
+		return ORM.insert("users", values);
+	}
+
+	public static ArrayList<Users> getUsers()
+			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
+			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
+
+		ResultSet rs = ORM.select("users", new String[] {}, "");
+		users.clear();
+		while (rs.next()) {
+			int idUser = rs.getInt("id_user");
+			String fio = rs.getString("fio");
+			String mail = rs.getString("e-mail");
+			String phone = rs.getString("phone");
+			String login = rs.getString("login");
+			String password = rs.getString("password");
+			users.add(new Users(idUser, fio, mail, phone, login, password));
+		}
+		rs.close();
+		return users;
 	}
 
 	public static void main(String[] args)

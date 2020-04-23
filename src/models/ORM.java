@@ -6,13 +6,12 @@ import java.util.HashMap;
 
 public class ORM {
 	private Connection conn;
-	private ResultSet rs;
 	private PreparedStatement stmt;
 	private static ORM instance;
-	
+
 	private ORM() throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
-		
+
 		String url = "jdbc:mysql://localhost/guitarshop?serverTimezone=Europe/Moscow&useSSL=false";
 		Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
 		conn = DriverManager.getConnection(url, "root", "");
@@ -22,7 +21,7 @@ public class ORM {
 	public static ORM getInstance()
 			throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
-		
+
 		if (instance == null) {
 			new ORM();
 		}
@@ -32,7 +31,7 @@ public class ORM {
 	public static ResultSet select(String table, String[] fields, String where)
 			throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
-		
+
 		return getInstance().selectQuery(table, fields, where);
 	}
 
@@ -59,7 +58,7 @@ public class ORM {
 	public static boolean insert(String table, HashMap<String, String> values)
 			throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
-		
+
 		return getInstance().insertQuery(table, values);
 	}
 
@@ -87,7 +86,7 @@ public class ORM {
 	public static boolean delete(String table, String field, int id)
 			throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
-		
+
 		return getInstance().deleteQuery(table, field, id);
 	}
 
@@ -105,7 +104,7 @@ public class ORM {
 	public static boolean update(String table, HashMap<String, String> values, String where)
 			throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
-		
+
 		return getInstance().updateQuery(table, values, where);
 	}
 
@@ -127,5 +126,18 @@ public class ORM {
 		}
 
 		return false;
+	}
+
+	public static int findMaxId(String id, String table)
+			throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+		
+		ResultSet rs = select(table, new String[] { "MAX(" + id + ")", "" }, "");
+		int maxId = 0;
+		if (rs.next()) {
+			maxId = rs.getInt(1);
+		}
+		rs.close();
+		return maxId;
 	}
 }
