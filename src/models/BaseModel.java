@@ -78,7 +78,7 @@ public class BaseModel {
 		HashMap<String, String> values = new HashMap<String, String>();
 		values.put("id_user", Integer.toString(id));
 		values.put("fio", fio);
-		values.put("e-mail", mail);
+		values.put("mail", mail);
 		values.put("phone", phone);
 		values.put("login", login);
 		values.put("password", password);
@@ -95,7 +95,7 @@ public class BaseModel {
 		while (rs.next()) {
 			int idUser = rs.getInt("id_user");
 			String fio = rs.getString("fio");
-			String mail = rs.getString("e-mail");
+			String mail = rs.getString("mail");
 			String phone = rs.getString("phone");
 			String login = rs.getString("login");
 			String password = rs.getString("password");

@@ -132,7 +132,7 @@ public class ORM {
 			throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
 		
-		ResultSet rs = select(table, new String[] { "MAX(" + id + ")", "" }, "");
+		ResultSet rs = select(table, new String[] { "MAX(" + id + ")"}, "");
 		int maxId = 0;
 		if (rs.next()) {
 			maxId = rs.getInt(1);

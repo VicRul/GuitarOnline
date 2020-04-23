@@ -20,7 +20,7 @@ public class Users {
 
 	@Override
 	public String toString() {
-		return "Users [Id = " + userId + "\nФИО = " + fio + "\nmail = " + mail + "\nphone = " + phone + "\nlogin = " + login
+		return "\n\nUsers [Id = " + userId + "\nФИО = " + fio + "\nmail = " + mail + "\nphone = " + phone + "\nlogin = " + login
 				+ "\npassword = " + password + "]";
 	}
 }
