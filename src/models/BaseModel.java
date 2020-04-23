@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class BaseModel {
-	
+
 	static ArrayList<Goods> goods = new ArrayList<Goods>();
 	static ArrayList<Basket> basket = new ArrayList<Basket>();
 	static ArrayList<Users> users = new ArrayList<Users>();
@@ -31,13 +31,13 @@ public class BaseModel {
 		return goods;
 	}
 
-	public static boolean addGoodsToBasket(int idGood)
+	public static boolean addGoodsToBasket(int idGood, int idBasket)
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
 
 		ResultSet rs = ORM.select("basket", new String[] { "id_good", "count" }, "where id_good = " + idGood);
 		HashMap<String, String> values = new HashMap<String, String>();
-		
+
 		if (rs.next()) {
 			int c = rs.getInt("count");
 			values.put("count", Integer.toString(++c));
@@ -46,6 +46,7 @@ public class BaseModel {
 
 		values.put("id_good", Integer.toString(idGood));
 		values.put("count", "1");
+		values.put("id_basket", Integer.toString(idBasket));
 		rs.close();
 		return ORM.insert("basket", values);
 	}
@@ -68,9 +69,9 @@ public class BaseModel {
 		rs.close();
 		return basket;
 	}
-	
+
 	public static boolean registrationUsers(String mail, String phone) {
-		
+
 		return false;
 	}
 
@@ -78,10 +79,10 @@ public class BaseModel {
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
 
-		addGoodsToBasket(2);
-		addGoodsToBasket(1);
-		addGoodsToBasket(6);
-		
+		addGoodsToBasket(2, 1);
+		addGoodsToBasket(1, 1);
+		addGoodsToBasket(6, 1);
+
 		ArrayList<Basket> values = getGoodsFromBasket();
 
 		for (Basket value : values) {
