@@ -8,9 +8,9 @@ import java.util.HashMap;
 
 public class BaseModel {
 
-	static ArrayList<Goods> goods = new ArrayList<Goods>();
-	static ArrayList<Basket> basket = new ArrayList<Basket>();
-	static ArrayList<Users> users = new ArrayList<Users>();
+	private static ArrayList<Goods> goods = new ArrayList<Goods>();
+	private static ArrayList<Basket> basket = new ArrayList<Basket>();
+	private static ArrayList<Users> users = new ArrayList<Users>();
 
 	public static ArrayList<Goods> getGoods()
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
@@ -43,7 +43,8 @@ public class BaseModel {
 			values.put("count", Integer.toString(++c));
 			return ORM.update("basket", values, "where id_good = " + idGood);
 		}
-
+		int id = ORM.findMaxId("id_purchase", "basket") + 1;
+		values.put("id_purchase", Integer.toString(id));
 		values.put("id_good", Integer.toString(idGood));
 		values.put("count", "1");
 		values.put("id_basket", Integer.toString(idBasket));
