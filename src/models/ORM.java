@@ -48,6 +48,7 @@ public class ORM {
 				}
 			}
 			String query = "SELECT " + selectFields + " FROM " + table + " " + where;
+			System.out.println(query);
 			stmt = conn.prepareStatement(query);
 			return stmt.executeQuery(query);
 		}

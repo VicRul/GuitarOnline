@@ -75,6 +75,13 @@ public class BaseModel {
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
 
+		
+		ResultSet rs = ORM.select("Users", new String[] {}, "where mail = '" + mail + "' or phone = '" + phone + "' or login = '" + login + "'");
+		if (rs.next()) {
+			rs.close();
+			return false;
+		}
+		
 		int id = ORM.findMaxId("id_user", "users") + 1;
 		HashMap<String, String> values = new HashMap<String, String>();
 		values.put("id_user", Integer.toString(id));
@@ -84,6 +91,7 @@ public class BaseModel {
 		values.put("login", login);
 		values.put("password", password);
 
+		rs.close();
 		return ORM.insert("users", values);
 	}
 
@@ -110,9 +118,8 @@ public class BaseModel {
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
 
-		registrationUsers("Виктор", "vic.1@mail.ru", "8-800-555-55-35", "VicRul", "VicRul");
-		registrationUsers("Александр", "al.1@mail.ru", "8-800-575-25-75", "AlOm", "AlOm");
-		registrationUsers("Егор", "eg.1@mail.ru", "8-800-566-51-15", "EgorAmur", "EgorAmur");
+		System.out.println(registrationUsers("Виктор", "vic.1@mail.ru", "8-800-555-55-35", "VicRul", "VicRul"));
+		System.out.println(registrationUsers("Виктор", "vic.1@mail.ru", "8-800-555-55-35", "VikRul", "VicRul"));
 
 		ArrayList<Users> values = getUsers();
 
