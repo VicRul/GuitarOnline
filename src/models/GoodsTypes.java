@@ -12,6 +12,6 @@ public class GoodsTypes {
 
 	@Override
 	public String toString() {
-		return "\n\n" + idType + ") " + type;
+		return "\n" + idType + ") " + type;
 	}
 }

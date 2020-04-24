@@ -12,6 +12,6 @@ public class GoodsModels {
 
 	@Override
 	public String toString() {
-		return "\n\n" + idModel + ") " + model;
+		return "\n" + idModel + ") " + model;
 	}
 }

@@ -10,6 +10,8 @@ public class BaseModel {
 
 	private static ArrayList<Goods> goods = new ArrayList<Goods>();
 	private static ArrayList<Basket> basket = new ArrayList<Basket>();
+	private static ArrayList<GoodsModels> models = new ArrayList<GoodsModels>();
+	private static ArrayList<GoodsTypes> types = new ArrayList<GoodsTypes>();
 	private static ArrayList<Users> users = new ArrayList<Users>();
 
 	public static ArrayList<Goods> getGoods()
@@ -31,6 +33,38 @@ public class BaseModel {
 		}
 		rs.close();
 		return goods;
+	}
+	
+	public static ArrayList<GoodsModels> getModels()
+			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, 
+			NoSuchMethodException, SecurityException, SQLException {
+		
+		ResultSet rs = ORM.select("good_model", new String[] {}, "");
+		models.clear();
+		
+		while(rs.next()) {
+			int idModel = rs.getInt("id");
+			String model = rs.getString("model");
+			models.add(new GoodsModels(idModel, model));
+		}
+		rs.close();
+		return models;
+	}
+	
+	public static ArrayList<GoodsTypes> getTypes()
+			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, 
+			NoSuchMethodException, SecurityException, SQLException {
+		
+		ResultSet rs = ORM.select("good_type", new String[] {}, "");
+		types.clear();
+		
+		while(rs.next()) {
+			int idType = rs.getInt("id");
+			String type = rs.getString("type");
+			types.add(new GoodsTypes(idType, type));
+		}
+		rs.close();
+		return types;
 	}
 
 	public static boolean addGoodsToBasket(int idGood, int idBasket)
@@ -120,9 +154,16 @@ public class BaseModel {
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
 
-		ArrayList<Goods> values = getGoods();
+		ArrayList<GoodsModels> values1 = getModels();
+		ArrayList<GoodsTypes> values2 = getTypes();
 		
-		for (Goods value : values) {
+		System.out.println("\n\nПроизводители:");
+		for (GoodsModels value : values1) {
+			System.out.println(value);
+		}
+
+		System.out.println("\n\nТипы гитар:");
+		for (GoodsTypes value : values2) {
 			System.out.println(value);
 		}
 	}
