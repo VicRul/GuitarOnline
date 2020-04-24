@@ -16,7 +16,7 @@ public class BaseModel {
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
 
-		ResultSet rs = ORM.select("goods g inner join goods_model m on g.id_good=m.id inner join goods_type t on g.id_good = t.id", new String[] {}, "");
+		ResultSet rs = ORM.select("goods g inner join good_model m on g.id_model=m.id inner join good_type t on g.id_type = t.id", new String[] {}, "");
 		goods.clear();
 
 		while (rs.next()) {
@@ -120,12 +120,9 @@ public class BaseModel {
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
 
-		System.out.println(registrationUsers("Виктор", "vic.1@mail.ru", "8-800-555-55-35", "VicRul", "VicRul"));
-		System.out.println(registrationUsers("Виктор", "vic.1@mail.ru", "8-800-555-55-35", "VikRul", "VicRul"));
-
-		ArrayList<Users> values = getUsers();
-
-		for (Users value : values) {
+		ArrayList<Goods> values = getGoods();
+		
+		for (Goods value : values) {
 			System.out.println(value);
 		}
 	}
