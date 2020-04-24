@@ -16,16 +16,18 @@ public class BaseModel {
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
 
-		ResultSet rs = ORM.select("goods", new String[] {}, "");
+		ResultSet rs = ORM.select("goods g inner join goods_model m on g.id_good=m.id inner join goods_type t on g.id_good = t.id", new String[] {}, "");
 		goods.clear();
 
 		while (rs.next()) {
 			int idGood = rs.getInt("id_good");
 			String title = rs.getString("title");
+			String model = rs.getString("model");
+			String type = rs.getString("type");
 			int price = rs.getInt("price");
 			String img = "img\\" + rs.getString("img");
 			String info = rs.getString("info");
-			goods.add(new Goods(idGood, title, price, img, info));
+			goods.add(new Goods(idGood, title, model, type, price, img, info));
 		}
 		rs.close();
 		return goods;
