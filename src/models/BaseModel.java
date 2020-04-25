@@ -12,7 +12,6 @@ public class BaseModel {
 	private static ArrayList<Basket> basket = new ArrayList<Basket>();
 	private static ArrayList<GoodsModels> models = new ArrayList<GoodsModels>();
 	private static ArrayList<GoodsTypes> types = new ArrayList<GoodsTypes>();
-	private static ArrayList<Users> users = new ArrayList<Users>();
 
 	public static ArrayList<Goods> getGoods()
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
@@ -142,26 +141,44 @@ public class BaseModel {
 		return ORM.insert("users", values);
 	}
 
-	public static boolean authUser(String login, String password)
+	public static boolean loggedIn(String login, String password)
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
 
 		boolean isLoggedIn = false;
-		ResultSet rs = ORM.select("users", new String[] {}, "where login = '" + login + "' and password = '" + password + "'");
+		ResultSet rs = ORM.select("users", new String[] {},
+				"where login = '" + login + "' and password = '" + password + "'");
 		if (rs.next()) {
 			isLoggedIn = true;
 			HashMap<String, String> values = new HashMap<String, String>();
-			values.putIfAbsent("auth_status", "1");
+			values.put("auth_status", "1");
 			ORM.update("users", values, "where login = '" + login + "'");
 		}
 		rs.close();
 		return isLoggedIn;
 	}
 
+	public static boolean loggedOut(String login)
+			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
+			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
+
+		boolean isLoggedOut = false;
+		ResultSet rs = ORM.select("users", new String[] {}, "where login = '" + login + "' and auth_status = 1");
+		
+		if (rs.next()) {
+			isLoggedOut = true;
+			HashMap<String, String> values = new HashMap<String, String>();
+			values.put("auth_status", "0");
+			ORM.update("users", values, "where login = '" + login + "'");
+		}
+		rs.close();
+		return isLoggedOut;
+	}
+
 	public static void main(String[] args)
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
 
-		System.out.println(authUser("VicRul", "VicRl"));
-	}	
+		System.out.println(loggedOut("VicRul"));
+	}
 }
