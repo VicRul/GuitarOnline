@@ -73,13 +73,13 @@ public class BaseModel {
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
 
-		ResultSet rs = ORM.select("basket", new String[] { "id_good", "count" }, "where id_good = " + idGood);
+		ResultSet rs = ORM.select("basket", new String[] { "id_good", "count" }, "where id_good = " + idGood + " and id_basket = " + idBasket);
 		HashMap<String, String> values = new HashMap<String, String>();
 
 		if (rs.next()) {
 			int c = rs.getInt("count");
 			values.put("count", Integer.toString(++c));
-			return ORM.update("basket", values, "where id_good = " + idGood);
+			return ORM.update("basket", values, "where id_good = " + idGood + " and id_basket = " + idBasket);
 		}
 		int id = ORM.findMaxId("id_purchase", "basket") + 1;
 		values.put("id_purchase", Integer.toString(id));
@@ -102,7 +102,7 @@ public class BaseModel {
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
 
 		String[] fields = new String[] { "goods.id_good", "img", "title", "price", "img", "count" };
-		ResultSet rs = ORM.select("goods inner join basket on goods.id_good=basket.id_good", fields, "");
+		ResultSet rs = ORM.select("goods inner join basket on goods.id_good=basket.id_good", fields, " where id_basket = " + idBasket);
 		basket.clear();
 		while (rs.next()) {
 			String img = "img\\" + rs.getString("img");
@@ -167,14 +167,16 @@ public class BaseModel {
 		addGoodsToBasket(2, 2);
 		addGoodsToBasket(4, 1);
 		addGoodsToBasket(2, 1);
-		
+		System.out.println("<Добавили товар в корзину 1>");
+		System.out.println("===========================================================");
 		ArrayList<Basket> values = getGoodsFromBasket(1);
 		
 		for (Basket value : values) {
 			System.out.println(value);
 		}
-		
-		removeGoodsFromBasket(2, 2);
+
+		System.out.println("<Показали товар в корзине 1>");
+		System.out.println("===========================================================");
 		removeGoodsFromBasket(1, 1);
 		removeGoodsFromBasket(4, 1);
 		ArrayList<Basket> values2 = getGoodsFromBasket(1);
@@ -182,5 +184,15 @@ public class BaseModel {
 		for (Basket value : values2) {
 			System.out.println(value);
 		}
+		System.out.println("<Удалили товар из корзины 1>");
+		System.out.println("===========================================================");
+		
+		ArrayList<Basket> values3 = getGoodsFromBasket(2);
+		
+		for (Basket value : values3) {
+			System.out.println(value);
+		}
+		System.out.println("<Показали товар в корзине 2>");
+		System.out.println("===========================================================");
 	}
 }
