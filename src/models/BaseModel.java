@@ -144,7 +144,7 @@ public class BaseModel {
 			String phone = rs.getString("phone");
 			String login = rs.getString("login");
 			String password = rs.getString("password");
-			users.add(new Users(idUser, fio, mail, phone, login, password));
+			users.add(new Users(idUser, fio, mail, phone, login, password, false));
 		}
 		rs.close();
 		return users;
