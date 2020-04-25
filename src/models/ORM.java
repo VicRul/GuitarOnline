@@ -48,6 +48,7 @@ public class ORM {
 				}
 			}
 			String query = "SELECT " + selectFields + " FROM " + table + " " + where;
+			System.out.println(query);
 			stmt = conn.prepareStatement(query);
 			return stmt.executeQuery(query);
 		}
@@ -83,17 +84,18 @@ public class ORM {
 		return false;
 	}
 
-	public static boolean delete(String table, String field, int id)
+	public static boolean delete(String table, String where)
 			throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
 
-		return getInstance().deleteQuery(table, field, id);
+		return getInstance().deleteQuery(table, where);
 	}
 
-	private boolean deleteQuery(String table, String field, int id) throws SQLException {
+	private boolean deleteQuery(String table, String where) throws SQLException {
 
 		if (conn != null && !conn.isClosed()) {
-			String sqlQuery = "DELETE FROM " + table + " WHERE " + field + "=" + id;
+			String sqlQuery = "DELETE FROM " + table + " " + where;
+			System.out.println(sqlQuery);
 			stmt = conn.prepareStatement(sqlQuery);
 			return stmt.executeUpdate(sqlQuery) > 0;
 		}

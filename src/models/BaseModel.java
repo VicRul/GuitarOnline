@@ -18,7 +18,9 @@ public class BaseModel {
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
 
-		ResultSet rs = ORM.select("goods g inner join good_model m on g.id_model=m.id inner join good_type t on g.id_type = t.id", new String[] {}, "");
+		ResultSet rs = ORM.select(
+				"goods g inner join good_model m on g.id_model=m.id inner join good_type t on g.id_type = t.id",
+				new String[] {}, "");
 		goods.clear();
 
 		while (rs.next()) {
@@ -34,15 +36,15 @@ public class BaseModel {
 		rs.close();
 		return goods;
 	}
-	
+
 	public static ArrayList<GoodsModels> getModels()
-			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, 
-			NoSuchMethodException, SecurityException, SQLException {
-		
+			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
+			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
+
 		ResultSet rs = ORM.select("good_model", new String[] {}, "");
 		models.clear();
-		
-		while(rs.next()) {
+
+		while (rs.next()) {
 			int idModel = rs.getInt("id");
 			String model = rs.getString("model");
 			models.add(new GoodsModels(idModel, model));
@@ -50,15 +52,15 @@ public class BaseModel {
 		rs.close();
 		return models;
 	}
-	
+
 	public static ArrayList<GoodsTypes> getTypes()
-			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, 
-			NoSuchMethodException, SecurityException, SQLException {
-		
+			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
+			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
+
 		ResultSet rs = ORM.select("good_type", new String[] {}, "");
 		types.clear();
-		
-		while(rs.next()) {
+
+		while (rs.next()) {
 			int idType = rs.getInt("id");
 			String type = rs.getString("type");
 			types.add(new GoodsTypes(idType, type));
@@ -88,7 +90,14 @@ public class BaseModel {
 		return ORM.insert("basket", values);
 	}
 
-	public static ArrayList<Basket> getGoodsFromBasket()
+	public static boolean removeGoodsFromBasket(int idGood, int idBasket)
+			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
+			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
+
+		return ORM.delete("basket", "where id_good = '" + idGood + "' and id_basket = '" + idBasket + "'");
+	}
+
+	public static ArrayList<Basket> getGoodsFromBasket(int idBasket)
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
 
@@ -111,13 +120,13 @@ public class BaseModel {
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
 
-		
-		ResultSet rs = ORM.select("Users", new String[] {}, "where mail = '" + mail + "' or phone = '" + phone + "' or login = '" + login + "'");
+		ResultSet rs = ORM.select("Users", new String[] {},
+				"where mail = '" + mail + "' or phone = '" + phone + "' or login = '" + login + "'");
 		if (rs.next()) {
 			rs.close();
 			return false;
 		}
-		
+
 		int id = ORM.findMaxId("id_user", "users") + 1;
 		HashMap<String, String> values = new HashMap<String, String>();
 		values.put("id_user", Integer.toString(id));
@@ -154,16 +163,23 @@ public class BaseModel {
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
 
-		ArrayList<GoodsModels> values1 = getModels();
-		ArrayList<GoodsTypes> values2 = getTypes();
+		addGoodsToBasket(1, 1);
+		addGoodsToBasket(2, 2);
+		addGoodsToBasket(4, 1);
+		addGoodsToBasket(2, 1);
 		
-		System.out.println("\n\nПроизводители:");
-		for (GoodsModels value : values1) {
+		ArrayList<Basket> values = getGoodsFromBasket(1);
+		
+		for (Basket value : values) {
 			System.out.println(value);
 		}
-
-		System.out.println("\n\nТипы гитар:");
-		for (GoodsTypes value : values2) {
+		
+		removeGoodsFromBasket(2, 2);
+		removeGoodsFromBasket(1, 1);
+		removeGoodsFromBasket(4, 1);
+		ArrayList<Basket> values2 = getGoodsFromBasket(1);
+		
+		for (Basket value : values2) {
 			System.out.println(value);
 		}
 	}
