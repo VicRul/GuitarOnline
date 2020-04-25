@@ -73,7 +73,8 @@ public class BaseModel {
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
 
-		ResultSet rs = ORM.select("basket", new String[] { "id_good", "count" }, "where id_good = " + idGood + " and id_basket = " + idBasket);
+		ResultSet rs = ORM.select("basket", new String[] { "id_good", "count" },
+				"where id_good = " + idGood + " and id_basket = " + idBasket);
 		HashMap<String, String> values = new HashMap<String, String>();
 
 		if (rs.next()) {
@@ -102,7 +103,8 @@ public class BaseModel {
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
 
 		String[] fields = new String[] { "goods.id_good", "img", "title", "price", "img", "count" };
-		ResultSet rs = ORM.select("goods inner join basket on goods.id_good=basket.id_good", fields, " where id_basket = " + idBasket);
+		ResultSet rs = ORM.select("goods inner join basket on goods.id_good=basket.id_good", fields,
+				" where id_basket = " + idBasket);
 		basket.clear();
 		while (rs.next()) {
 			String img = "img\\" + rs.getString("img");
@@ -140,59 +142,26 @@ public class BaseModel {
 		return ORM.insert("users", values);
 	}
 
-	public static ArrayList<Users> getUsers()
+	public static boolean authUser(String login, String password)
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
 
-		ResultSet rs = ORM.select("users", new String[] {}, "");
-		users.clear();
-		while (rs.next()) {
-			int idUser = rs.getInt("id_user");
-			String fio = rs.getString("fio");
-			String mail = rs.getString("mail");
-			String phone = rs.getString("phone");
-			String login = rs.getString("login");
-			String password = rs.getString("password");
-			users.add(new Users(idUser, fio, mail, phone, login, password, false));
+		boolean isLoggedIn = false;
+		ResultSet rs = ORM.select("users", new String[] {}, "where login = '" + login + "' and password = '" + password + "'");
+		if (rs.next()) {
+			isLoggedIn = true;
+			HashMap<String, String> values = new HashMap<String, String>();
+			values.putIfAbsent("auth_status", "1");
+			ORM.update("users", values, "where login = '" + login + "'");
 		}
 		rs.close();
-		return users;
+		return isLoggedIn;
 	}
 
 	public static void main(String[] args)
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
 
-		addGoodsToBasket(1, 1);
-		addGoodsToBasket(2, 2);
-		addGoodsToBasket(4, 1);
-		addGoodsToBasket(2, 1);
-		System.out.println("<Добавили товар в корзину 1>");
-		System.out.println("===========================================================");
-		ArrayList<Basket> values = getGoodsFromBasket(1);
-		
-		for (Basket value : values) {
-			System.out.println(value);
-		}
-
-		System.out.println("<Показали товар в корзине 1>");
-		System.out.println("===========================================================");
-		removeGoodsFromBasket(1, 1);
-		removeGoodsFromBasket(4, 1);
-		ArrayList<Basket> values2 = getGoodsFromBasket(1);
-		
-		for (Basket value : values2) {
-			System.out.println(value);
-		}
-		System.out.println("<Удалили товар из корзины 1>");
-		System.out.println("===========================================================");
-		
-		ArrayList<Basket> values3 = getGoodsFromBasket(2);
-		
-		for (Basket value : values3) {
-			System.out.println(value);
-		}
-		System.out.println("<Показали товар в корзине 2>");
-		System.out.println("===========================================================");
-	}
+		System.out.println(authUser("VicRul", "VicRl"));
+	}	
 }

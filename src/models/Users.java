@@ -8,24 +8,14 @@ public class Users {
 	private String phone;
 	private String login;
 	private String password;
-	private boolean isAuthorised;
 	
-	public Users(int userId, String fio, String mail, String phone, String login, String password, boolean isAuthorised) {
+	public Users(int userId, String fio, String mail, String phone, String login, String password) {
 		this.userId = userId;
 		this.fio = fio;
 		this.mail = mail;
 		this.phone = phone;
 		this.login = login;
 		this.password = password;
-		this.isAuthorised = isAuthorised;
-	}
-	
-	public boolean isAuthorised() {
-		return isAuthorised;
-	}
-
-	public void setAuthorised(boolean isAuthorised) {
-		this.isAuthorised = isAuthorised;
 	}
 
 	@Override

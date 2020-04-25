@@ -121,6 +121,7 @@ public class ORM {
 					i++;
 				}
 				sqlQuery += " SET " + sqlValues + " " + where;
+				System.out.println(sqlQuery);
 				stmt = conn.prepareStatement(sqlQuery);
 				return stmt.executeUpdate(sqlQuery) > 0;
 			}
