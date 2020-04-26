@@ -239,6 +239,7 @@ public class BaseModel {
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
 
-		System.out.println(loggedOut("VicRul"));
+		System.out.println(findUserId("al.1@mail.ru"));	
+		System.out.println(openBasket(1));
 	}
 }
