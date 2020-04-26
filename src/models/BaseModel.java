@@ -1,10 +1,16 @@
 package models;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class BaseModel {
 
@@ -196,7 +202,16 @@ public class BaseModel {
 		rs.close();
 		return id;
 	}
-
+	
+	/* Проверка на авторизацию пользователя */
+	public static  boolean UserExist(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		if (session.getAttribute("id_user")!=null) {
+			 return true;
+		}
+		return false;
+	}
+	
 	public static void main(String[] args)
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
