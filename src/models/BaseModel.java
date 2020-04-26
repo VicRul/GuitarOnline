@@ -13,6 +13,7 @@ public class BaseModel {
 	private static ArrayList<GoodsModels> models = new ArrayList<GoodsModels>();
 	private static ArrayList<GoodsTypes> types = new ArrayList<GoodsTypes>();
 
+	/*Получить список товаров*/
 	public static ArrayList<Goods> getGoods()
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
@@ -36,6 +37,7 @@ public class BaseModel {
 		return goods;
 	}
 
+	/*Получить список производителей*/
 	public static ArrayList<GoodsModels> getModels()
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
@@ -52,6 +54,7 @@ public class BaseModel {
 		return models;
 	}
 
+	/*Получить список типов товаров*/
 	public static ArrayList<GoodsTypes> getTypes()
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
@@ -68,6 +71,7 @@ public class BaseModel {
 		return types;
 	}
 
+	/*Добавить товар в корзину*/
 	public static boolean addGoodsToBasket(int idGood, int idBasket)
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
@@ -90,6 +94,7 @@ public class BaseModel {
 		return ORM.insert("basket", values);
 	}
 
+	/*Удалить товар из корзины*/
 	public static boolean removeGoodsFromBasket(int idGood, int idBasket)
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
@@ -97,6 +102,7 @@ public class BaseModel {
 		return ORM.delete("basket", "where id_good = '" + idGood + "' and id_basket = '" + idBasket + "'");
 	}
 
+	/*Получить список товаров в корзине*/
 	public static ArrayList<Basket> getGoodsFromBasket(int idBasket)
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
@@ -117,12 +123,13 @@ public class BaseModel {
 		return basket;
 	}
 
-	public static boolean registrationUsers(String fio, String mail, String phone, String login, String password)
+	/*Регистрация нового пользователя*/
+	public static boolean registrationUsers(String fio, String mail, String phone, String password)
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
 
 		ResultSet rs = ORM.select("Users", new String[] {},
-				"where mail = '" + mail + "' or phone = '" + phone + "' or login = '" + login + "'");
+				"where mail = '" + mail + "' or phone = '" + phone + "'");
 		if (rs.next()) {
 			rs.close();
 			return false;
@@ -134,42 +141,43 @@ public class BaseModel {
 		values.put("fio", fio);
 		values.put("mail", mail);
 		values.put("phone", phone);
-		values.put("login", login);
 		values.put("password", password);
 
 		rs.close();
 		return ORM.insert("users", values);
 	}
 
-	public static boolean loggedIn(String login, String password)
+	/*Вход в учетную запись пользователя*/
+	public static boolean loggedIn(String mail, String password)
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
 
 		boolean isLoggedIn = false;
 		ResultSet rs = ORM.select("users", new String[] {},
-				"where login = '" + login + "' and password = '" + password + "'");
+				"where mail = '" + mail + "' and password = '" + password + "'");
 		if (rs.next()) {
 			isLoggedIn = true;
 			HashMap<String, String> values = new HashMap<String, String>();
 			values.put("auth_status", "1");
-			ORM.update("users", values, "where login = '" + login + "'");
+			ORM.update("users", values, "where mail = '" + mail + "'");
 		}
 		rs.close();
 		return isLoggedIn;
 	}
 
-	public static boolean loggedOut(String login)
+	/*Выход из учетной записи пользователя*/
+	public static boolean loggedOut(String mail)
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
 
 		boolean isLoggedOut = false;
-		ResultSet rs = ORM.select("users", new String[] {}, "where login = '" + login + "' and auth_status = 1");
+		ResultSet rs = ORM.select("users", new String[] {}, "where mail = '" + mail + "' and auth_status = 1");
 		
 		if (rs.next()) {
 			isLoggedOut = true;
 			HashMap<String, String> values = new HashMap<String, String>();
 			values.put("auth_status", "0");
-			ORM.update("users", values, "where login = '" + login + "'");
+			ORM.update("users", values, "where mail = '" + mail + "'");
 		}
 		rs.close();
 		return isLoggedOut;
