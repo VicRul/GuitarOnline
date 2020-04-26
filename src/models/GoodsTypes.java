@@ -10,6 +10,15 @@ public class GoodsTypes {
 		this.type = type;
 	}
 
+	
+	public int getIdType() {
+		return idType;
+	}
+
+	public String getType() {
+		return type;
+	}
+
 	@Override
 	public String toString() {
 		return "\n" + idType + ") " + type;

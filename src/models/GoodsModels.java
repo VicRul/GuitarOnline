@@ -9,6 +9,15 @@ public class GoodsModels {
 		this.idModel = idModel;
 		this.model = model;
 	}
+	
+
+	public int getIdModel() {
+		return idModel;
+	}
+
+	public String getModel() {
+		return model;
+	}
 
 	@Override
 	public String toString() {

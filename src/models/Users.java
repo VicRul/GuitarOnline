@@ -16,6 +16,27 @@ public class Users {
 		this.password = password;
 	}
 
+	
+	public int getUserId() {
+		return userId;
+	}
+
+	public String getFio() {
+		return fio;
+	}
+
+	public String getMail() {
+		return mail;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
 	@Override
 	public String toString() {
 		return "\n\nUsers [Id = " + userId + "\nФИО = " + fio + "\nmail = " + mail + "\nphone = " + phone + "\npassword = " + password + "]";

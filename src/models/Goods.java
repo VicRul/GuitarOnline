@@ -20,6 +20,35 @@ public class Goods {
 		this.img = img;
 		this.info = info;
 	}
+	
+	
+	public int getIdGood() {
+		return idGood;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public String getModel() {
+		return model;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public int getPrice() {
+		return price;
+	}
+
+	public String getImg() {
+		return img;
+	}
+
+	public String getInfo() {
+		return info;
+	}
 
 	@Override
 	public String toString() {
