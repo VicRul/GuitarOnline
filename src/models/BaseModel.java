@@ -194,7 +194,7 @@ public class BaseModel {
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
 		int id = 0;
 		ResultSet rs = ORM.select("users", new String[] { "id_user" }, "where mail = '" + mail + "'");
-		
+
 		if (rs.next()) {
 			id = rs.getInt("id_user");
 		}
@@ -202,16 +202,39 @@ public class BaseModel {
 		rs.close();
 		return id;
 	}
-	
+
 	/* Проверка на авторизацию пользователя */
-	public static  boolean UserExist(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public static boolean UserExist(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		if (session.getAttribute("id_user")!=null) {
-			 return true;
+		if (session.getAttribute("id_user") != null) {
+			return true;
 		}
 		return false;
 	}
-	
+
+	/* Проверка, открыта ли корзина у пользователя. Если нет то открываем. */
+	public static int openBasket(int idUser)
+			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
+			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
+		int idBasket = 0;
+		ResultSet rs = ORM.select("all_baskets", new String[] { "id_basket" }, "where id_user = '" + idUser + "'");
+
+		if (rs.next()) {
+			idBasket = rs.getInt("id_basket");
+			rs.close();
+			return idBasket;
+		}
+
+		idBasket = ORM.findMaxId("id_basket", "all_baskets") + 1;
+		HashMap<String, String> values = new HashMap<String, String>();
+		values.put("id_basket", Integer.toString(idBasket));
+		values.put("id_user", Integer.toString(idUser));
+		ORM.insert("all_baskets", values);
+		rs.close();
+		return idBasket;
+	}
+
 	public static void main(String[] args)
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
