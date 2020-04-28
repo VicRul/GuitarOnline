@@ -24,4 +24,10 @@ public class Orders {
 	public String getStatus() {
 		return status;
 	}
+
+
+	@Override
+	public String toString() {
+		return "\n\nOrders \nidOrder=" + idOrder + "\nsumOrder=" + sumOrder + "\nstatus=" + status;
+	}
 }

@@ -12,6 +12,31 @@ public class BasketQuery {
 
 	private static ArrayList<Basket> basket = new ArrayList<Basket>();
 
+	/* Открываем корзину для авторизованного пользователя */
+	public static int openBasket(int idUser)
+			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
+			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
+
+		/*int idBasket = 0;
+		ResultSet rs = ORM.select("all_baskets", new String[] { "id_basket" }, "where id_user = '" + idUser + "'");
+
+		if (rs.next()) {
+			idBasket = rs.getInt("id_basket");
+			rs.close();
+			return idBasket;
+		}
+
+		rs.close();*/
+		
+		
+		int idBasket = ORM.findMaxId("id_basket", "all_baskets") + 1;
+		HashMap<String, String> values = new HashMap<String, String>();
+		values.put("id_basket", Integer.toString(idBasket));
+		values.put("id_user", Integer.toString(idUser));
+		ORM.insert("all_baskets", values);
+		return idBasket;
+	}
+
 	/* Добавить товар в корзину */
 	public static boolean addGoodsToBasket(int idGood, int idBasket)
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
@@ -75,26 +100,5 @@ public class BasketQuery {
 		}
 		rs.close();
 		return basket;
-	}
-
-	public static void main(String[] args)
-			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
-			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
-
-		ArrayList<Basket> values = getGoodsFromBasket(1);
-
-		for (Basket value : values) {
-			System.out.println(value);
-		}
-
-		//removeGoodsFromBasket(2, 1);
-		addGoodsToBasket(2, 1);
-
-		ArrayList<Basket> values2 = getGoodsFromBasket(1);
-
-		for (Basket value : values2) {
-			System.out.println(value);
-		}
-
 	}
 }

@@ -9,34 +9,11 @@ import java.util.HashMap;
 import models.ORM;
 
 public class OrdersQuery {
-	
+
 	private static ArrayList<Orders> orders = new ArrayList<Orders>();
 	private static ArrayList<OrderStatuses> orderStatuses = new ArrayList<OrderStatuses>();
 
-		/* Проверка, открыта ли корзина у пользователя. Если нет то открываем. */
-	public static int openBasket(int idUser)
-			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
-			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
-
-		int idBasket = 0;
-		ResultSet rs = ORM.select("all_baskets", new String[] { "id_basket" }, "where id_user = '" + idUser + "'");
-
-		if (rs.next()) {
-			idBasket = rs.getInt("id_basket");
-			rs.close();
-			return idBasket;
-		}
-
-		idBasket = ORM.findMaxId("id_basket", "all_baskets") + 1;
-		HashMap<String, String> values = new HashMap<String, String>();
-		values.put("id_basket", Integer.toString(idBasket));
-		values.put("id_user", Integer.toString(idUser));
-		ORM.insert("all_baskets", values);
-		rs.close();
-		return idBasket;
-	}
-
-	/* Список статусов для заказа */	
+	/* Список статусов для заказа */
 	public static ArrayList<OrderStatuses> getOrderStatuses()
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
@@ -68,6 +45,46 @@ public class OrdersQuery {
 		
 		return idOrder;
 	}
+
+	/* Получаем все заказы конкретного пользователя !!! НЕ РАБОТАЕТ !!!*/
+	public static ArrayList<Orders> getAllUserOrders(int idUser)
+			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
+			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
+		ResultSet rs = ORM.select("status s inner join orders o on s.id_status = o.id_status inner join all_baskets a on a.id_basket = o.id_basket",
+				new String[] {"id_order", "status"}, "where a.id_user = " + idUser);
+		orders.clear();
+		while (rs.next()) {
+			int idOrder = rs.getInt("id_order");
+			ResultSet sumRs = ORM.select("goods g inner join basket b on g.id_good = b.id_good inner join all_baskets a on a.id_basket = a.id_basket", 
+					new String[] {"SUM(price * b.count) as sum"}, "where a.id_user = " + idUser);
+			int sumOrder = 0;
+			if (sumRs.next()) {
+				sumOrder = sumRs.getInt("sum");
+			}
+			String status = rs.getString("status");
+			sumRs.close();
+			orders.add(new Orders(idOrder, sumOrder, status));
+		}
+		
+		return orders;
+	}
 	
-	/* Получаем все заказы конкретного пользователя */
+	/* Получаем все заказы конкретного пользователя в зависимости от статуса */
+	public static ArrayList<Orders> getAllUserOrders(int idUser, int idStatus)
+			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
+			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
+		
+		return orders;	
+	}
+	
+	public static void main(String[] args)
+			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
+			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
+		
+		ArrayList<Orders> values = getAllUserOrders(1);
+		
+		for (Orders value : values) {
+			System.out.println(value);
+		}
+	}
 }

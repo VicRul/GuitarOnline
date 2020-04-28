@@ -116,14 +116,4 @@ public class GoodsQuery {
 		rs.close();
 		return goods;
 	}
-
-	public static void main(String[] args)
-			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
-			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
-		ArrayList<Goods> values = getGoodsByType(2);
-
-		for (Goods value : values) {
-			System.out.println(value);
-		}
-	}
 }
