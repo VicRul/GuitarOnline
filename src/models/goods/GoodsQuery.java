@@ -116,9 +116,6 @@ public class GoodsQuery {
 		rs.close();
 		return goods;
 	}
-	/* Получить список товаров по стоимости больше введенной суммы */
-	/* Получить список товаров по стоимости меньше введенной суммы */
-	/* Получить список товаров по стоимости в диапазоне введенных сумм */
 
 	public static void main(String[] args)
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,

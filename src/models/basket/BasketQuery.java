@@ -8,10 +8,10 @@ import java.util.HashMap;
 
 import models.ORM;
 
-public class BasjetQuery {
+public class BasketQuery {
 
 	private static ArrayList<Basket> basket = new ArrayList<Basket>();
-	
+
 	/* Добавить товар в корзину */
 	public static boolean addGoodsToBasket(int idGood, int idBasket)
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
@@ -24,6 +24,7 @@ public class BasjetQuery {
 		if (rs.next()) {
 			int c = rs.getInt("count");
 			values.put("count", Integer.toString(++c));
+			rs.close();
 			return ORM.update("basket", values, "where id_good = " + idGood + " and id_basket = " + idBasket);
 		}
 		int id = ORM.findMaxId("id_purchase", "basket") + 1;
@@ -40,6 +41,18 @@ public class BasjetQuery {
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
 
+		ResultSet rs = ORM.select("basket", new String[] { "id_good", "count" },
+				"where id_good = " + idGood + " and id_basket = " + idBasket);
+		HashMap<String, String> values = new HashMap<String, String>();
+
+		while (rs.next()) {
+			int c = rs.getInt("count");
+			if (c > 1) {
+				values.put("count", Integer.toString(--c));
+				rs.close();
+				return ORM.update("basket", values, "where id_good = " + idGood + " and id_basket = " + idBasket);
+			}
+		}
 		return ORM.delete("basket", "where id_good = '" + idGood + "' and id_basket = '" + idBasket + "'");
 	}
 
@@ -63,13 +76,25 @@ public class BasjetQuery {
 		rs.close();
 		return basket;
 	}
-	
-	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException,
-					IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
+
+	public static void main(String[] args)
+			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
+			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
+
 		ArrayList<Basket> values = getGoodsFromBasket(1);
-		
+
 		for (Basket value : values) {
 			System.out.println(value);
 		}
+
+		//removeGoodsFromBasket(2, 1);
+		addGoodsToBasket(2, 1);
+
+		ArrayList<Basket> values2 = getGoodsFromBasket(1);
+
+		for (Basket value : values2) {
+			System.out.println(value);
+		}
+
 	}
 }
