@@ -1,4 +1,4 @@
-package models;
+package models.goods;
 
 public class Goods {
 	
