@@ -63,4 +63,13 @@ public class BasjetQuery {
 		rs.close();
 		return basket;
 	}
+	
+	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException,
+					IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
+		ArrayList<Basket> values = getGoodsFromBasket(1);
+		
+		for (Basket value : values) {
+			System.out.println(value);
+		}
+	}
 }
