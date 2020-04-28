@@ -94,6 +94,28 @@ public class GoodsQuery {
 		return goods;
 	}
 	/* Получить список товаров по типу */
+	public static ArrayList<Goods> getGoodsByType(int idType)
+			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
+			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
+
+		ResultSet rs = ORM.select("goods g inner join good_model m on g.id_model=m.id inner join good_type t on g.id_type = t.id", 
+				new String[] {}, "where t.id = " + idType);
+		goods.clear();
+
+		while (rs.next()) {
+			int idGood = rs.getInt("id_good");
+			String title = rs.getString("title");
+			String model = rs.getString("model");
+			String type = rs.getString("type");
+			int price = rs.getInt("price");
+			String img = "img\\" + rs.getString("img");
+			String info = rs.getString("info");
+			goods.add(new Goods(idGood, title, model, type, price, img, info));
+		}
+
+		rs.close();
+		return goods;
+	}
 	/* Получить список товаров по стоимости больше введенной суммы */
 	/* Получить список товаров по стоимости меньше введенной суммы */
 	/* Получить список товаров по стоимости в диапазоне введенных сумм */
@@ -101,7 +123,7 @@ public class GoodsQuery {
 	public static void main(String[] args)
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
-		ArrayList<Goods> values = getGoodsByModel(1);
+		ArrayList<Goods> values = getGoodsByType(2);
 
 		for (Goods value : values) {
 			System.out.println(value);
