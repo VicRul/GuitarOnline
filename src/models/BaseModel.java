@@ -18,6 +18,8 @@ public class BaseModel {
 	private static ArrayList<Basket> basket = new ArrayList<Basket>();
 	private static ArrayList<GoodsModels> models = new ArrayList<GoodsModels>();
 	private static ArrayList<GoodsTypes> types = new ArrayList<GoodsTypes>();
+	private static ArrayList<Orders> orders = new ArrayList<Orders>();
+	private static ArrayList<OrderStatuses> orderStatuses = new ArrayList<OrderStatuses>();
 
 	/* Получить список товаров */
 	public static ArrayList<Goods> getGoods()
@@ -192,6 +194,7 @@ public class BaseModel {
 	public static int findUserId(String mail)
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
+
 		int id = 0;
 		ResultSet rs = ORM.select("users", new String[] { "id_user" }, "where mail = '" + mail + "'");
 
@@ -206,6 +209,7 @@ public class BaseModel {
 	/* Проверка на авторизацию пользователя */
 	public static boolean UserExist(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+
 		HttpSession session = request.getSession();
 		if (session.getAttribute("id_user") != null) {
 			return true;
@@ -217,6 +221,7 @@ public class BaseModel {
 	public static int openBasket(int idUser)
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
+
 		int idBasket = 0;
 		ResultSet rs = ORM.select("all_baskets", new String[] { "id_basket" }, "where id_user = '" + idUser + "'");
 
@@ -235,11 +240,60 @@ public class BaseModel {
 		return idBasket;
 	}
 
+	public static ArrayList<OrderStatuses> getOrderStatuses()
+			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
+			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
+
+		ResultSet rs = ORM.select("status", new String[] {}, "");
+
+		orderStatuses.clear();
+		while(rs.next()) {
+			
+			int id = rs.getInt("id_status");
+			String status = rs.getString("status");
+			orderStatuses.add(new OrderStatuses(id, status));
+		}
+		
+		rs.close();
+		return orderStatuses;
+	}
+
+	/* Оформляем заказ */
+	public static int createOrder(int idUser)
+			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
+			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
+
+		ResultSet rs = ORM.select(
+				"basket b inner join goods g on g.id_good = b.id_good inner join all_baskets a on a.id_basket = b.id_basket",
+				new String[] { "g.img", "g.title", "g.price", "b.count" }, "where a.id_user = '" + idUser + "'");
+		// orderItems.clear();
+
+		while (rs.next()) {
+			int idItem = ORM.findMaxId("id_item", "order_items") + 1;
+			String photo = "img\\" + rs.getString("img");
+			String title = rs.getString("title");
+			int price = rs.getInt("price");
+			int count = rs.getInt("count");
+			int sum = price * count;
+			// orderItems.add(new OrderItems(idItem, photo, title, price, count, sum));
+		}
+		rs.close();
+
+		int idOrder = ORM.findMaxId("id_order", "orders") + 1;
+		HashMap<String, String> values = new HashMap<String, String>();
+
+		values.put("id_order", Integer.toString(idOrder));
+		return 0;
+	}
+
 	public static void main(String[] args)
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
 
-		System.out.println(findUserId("al.1@mail.ru"));	
-		System.out.println(openBasket(1));
+		ArrayList<OrderStatuses> values = getOrderStatuses();
+		
+		for (OrderStatuses value : values) {
+			System.out.println(value);
+		}
 	}
 }
