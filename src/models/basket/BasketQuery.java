@@ -76,13 +76,4 @@ public class BasketQuery {
 		rs.close();
 		return basket;
 	}
-	
-	public static void main(String[] args)
-			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
-			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
-		
-		addGoodsToBasket(4, 3);
-		
-		
-	}
 }
