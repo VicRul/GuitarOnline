@@ -104,17 +104,4 @@ public class OrdersQuery {
 
 		return orders;
 	}
-
-	public static void main(String[] args)
-			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
-			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
-
-		
-		
-		ArrayList<Orders> values = getAllUserOrders(1, 2);
-
-		for (Orders value : values) {
-			System.out.println(value);
-		}
-	}
 }
