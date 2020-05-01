@@ -116,4 +116,19 @@ public class GoodsQuery {
 		rs.close();
 		return goods;
 	}
+	
+	/* Получить имя товара по id */
+	public static String getGoodNameById(int idGood) 
+			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
+			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
+		   String name = "";
+		   ResultSet rs = ORM.select("goods", new String[] {"title"}, "where id_good = " + idGood);
+		   
+		   if (rs.next()) {
+			   name = rs.getString(1);
+		   }
+		   
+		   rs.close();
+		   return name;
+	   }
 }

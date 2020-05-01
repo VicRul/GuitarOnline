@@ -10,7 +10,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import models.basket.BasketQuery;
 import models.goods.*;
 
 @WebServlet("/GuitarsCatalog")
@@ -19,37 +21,49 @@ public class GuitarsCatalog extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		response.setContentType("text/html;charset=utf-8");
-		request.setCharacterEncoding("utf-8");
-		
-		try {
-			ArrayList<Goods> goods = GoodsQuery.getGoods();
-			String outer = "<table>";
-			
-			for (Goods good : goods) {
-				outer += "<tr>"
-							+ "<td>" 
-								+ "<p class = 'title'>" + good.getTitle() + "</p>" 
-								+ "<img src = '" + good.getImg() + "'>" 
-								+ "<p class = 'price'>" + good.getPrice() + " ₽</p>" 
-						    + "</td>" 
-						    + "<td id = 'info'>" + good.getInfo() + "</td>" 
-						+ "</tr>";
-			}
-			
-			outer += "</table>";
-			response.getWriter().print(outer);
-		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException
-				| InvocationTargetException | NoSuchMethodException | SecurityException | SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		HttpSession session = request.getSession();
+		doPost(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		doGet(request, response);
+		if (request.getParameter("id_good") == null) {
+			request.setCharacterEncoding("UTF-8");
+			response.setCharacterEncoding("UTF-8");
+
+			try {
+				try {
+					request.setAttribute("goods", GoodsQuery.getGoods());
+				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+						| InvocationTargetException | NoSuchMethodException | SecurityException e) {
+					
+					e.printStackTrace();
+				}
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+			request.getRequestDispatcher("WEB-INF/views/Goods.jsp").forward(request, response);
+		
+		} else {
+			int idGood = Integer.parseInt(request.getParameter("id_good"));
+			int idOrder = 0;
+
+			if (idGood > 0) {
+				try {
+					if (BasketQuery.addGoodsToBasket(idGood, idOrder)) {
+						request.setCharacterEncoding("UTF-8");
+						response.setCharacterEncoding("UTF-8");
+						response.getWriter().print("Товар " + GoodsQuery.getGoodNameById(idGood) + " успешно добавлен в корзину!");
+					}
+				} catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+						e.printStackTrace();
+				}
+			}
+		}
 	}
 
 }
