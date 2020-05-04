@@ -18,9 +18,4 @@ public class GoodsTypes {
 	public String getType() {
 		return type;
 	}
-
-	@Override
-	public String toString() {
-		return "\n" + idType + ") " + type;
-	}
 }
