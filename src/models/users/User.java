@@ -1,19 +1,17 @@
 package models.users;
 
-public class Users {
+public class User {
 
 	private int userId;
 	private String fio;
 	private String mail;
 	private String phone;
-	private String password;
 	
-	public Users(int userId, String fio, String mail, String phone, String login, String password) {
+	public User(int userId, String fio, String mail, String phone) {
 		this.userId = userId;
 		this.fio = fio;
 		this.mail = mail;
 		this.phone = phone;
-		this.password = password;
 	}
 
 	
@@ -33,12 +31,8 @@ public class Users {
 		return phone;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
 	@Override
 	public String toString() {
-		return "\n\nUsers [Id = " + userId + "\nФИО = " + fio + "\nmail = " + mail + "\nphone = " + phone + "\npassword = " + password + "]";
+		return "\n\nUsers [Id = " + userId + "\nФИО = " + fio + "\nmail = " + mail + "\nphone = " + phone + "]";
 	}
 }

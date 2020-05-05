@@ -90,6 +90,24 @@ public class UsersQuery {
 		return id;
 	}
 
+	/* Вывод информации по пользователю */
+	public static User getInfoAboutUser(int idUser)
+			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
+			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
+		ResultSet rs = ORM.select("users", new String[] {}, "where id_user = " + idUser);
+		int userId = 0;
+		String fio = "", mail = "", phone = "";
+
+		if (rs.next()) {
+			userId = rs.getInt("id_user");
+			fio = rs.getString("fio");
+			mail = rs.getString("mail");
+			phone = rs.getString("phone");
+		}
+
+		return new User(userId, fio, mail, phone);
+	}
+
 	/* Проверка на авторизацию пользователя */
 	public static boolean UserExist(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
