@@ -52,7 +52,7 @@
 						url:"GuitarsCatalog",
 						data:dataStr,
 						success:function(msg){
-							$("h1").html(msg);						
+							alert(msg);						
 						}
 					}		
 				);
@@ -61,42 +61,51 @@
 		<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 	</head>
 	<body>
-		<div>
-			<form action="GuitarsCatalog" method="POST">
-				<p>Выберите производителя:</p>
-        		<select id="models" name="model">
-        		<option value=0></option>
-        			<c:forEach items="${models}" var="model">
-        				<option value=${model.idModel}>${model.model}</option>
-        			</c:forEach>
-       			</select>
-       			<p>Выберите тип:</p>
-        		<select id="types" name="type">
-        		<option value=0></option>
-        			<c:forEach items="${types}" var="type">
-        				<option value=${type.idType}>${type.type}</option>
-        			</c:forEach>
-       			</select>
-       			<input type="submit" value="Поиск">
-			</form>	
-		</div>
-		<div>
-			<a id="toTheBasket" href="Basket" title="В корзину"><img width="20%" src="img\buttons\to_basket.png"></a>
-		</div>
-		<div>
-			<table>
-				<tr>
-					<c:forEach items="${goods}" var="good">
-						<tr>
-							<td><img width="100 px" src=${good.img}></td>
-							<td>${good.title}</td>
-							<td>${good.price} ₽</td>
-							<td>${good.info}</td>
-							<td><a onclick="addBasket(${good.idGood})" href='#'><img width="100%" src="img\buttons\to_basket.png"></a></td>
-						</tr>
-					</c:forEach>
-				</tr>
-			</table>
-		</div>
+		<header>
+		<nav class="container">
+		  <div class="auth">
+		  	<a href="">Войти/Зарегистрироваться</a>
+		  </div>
+		</nav>
+  		</header>
+  		<div class="container">
+			<div>
+				<form action="GuitarsCatalog" method="POST">
+					<p>Выберите производителя:</p>
+	        		<select id="models" name="model">
+	        		<option value=0></option>
+	        			<c:forEach items="${models}" var="model">
+	        				<option value=${model.idModel}>${model.model}</option>
+	        			</c:forEach>
+	       			</select>
+	       			<p>Выберите тип:</p>
+	        		<select id="types" name="type">
+	        		<option value=0></option>
+	        			<c:forEach items="${types}" var="type">
+	        				<option value=${type.idType}>${type.type}</option>
+	        			</c:forEach>
+	       			</select>
+	       			<input type="submit" value="Поиск">
+				</form>	
+			</div>
+			<div>
+				<a id="toTheBasket" href="Basket" title="В корзину"><img width="20%" src="img\buttons\to_basket.png"></a>
+			</div>
+			<div>
+				<table>
+					<tr>
+						<c:forEach items="${goods}" var="good">
+							<tr>
+								<td><img width="100 px" src=${good.img}></td>
+								<td>${good.title}</td>
+								<td>${good.price} ₽</td>
+								<td>${good.info}</td>
+								<td><a onclick="addBasket(${good.idGood})" href='#'><img width="100%" src="img\buttons\to_basket.png"></a></td>
+							</tr>
+						</c:forEach>
+					</tr>
+				</table>
+			</div>
+		</div>	
 	</body>
 </html>

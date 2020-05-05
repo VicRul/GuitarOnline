@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import models.basket.BasketQuery;
 import models.goods.*;
+import models.users.UsersQuery;
 
 @WebServlet("/GuitarsCatalog")
 public class GuitarsCatalog extends HttpServlet {
@@ -20,8 +21,6 @@ public class GuitarsCatalog extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		HttpSession session = request.getSession();
 		doPost(request, response);
 	}
 
@@ -29,9 +28,9 @@ public class GuitarsCatalog extends HttpServlet {
 			throws ServletException, IOException {
 
 		int idModel = 0, idType = 0;
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
 		if (request.getParameter("id_good") == null) {
-			request.setCharacterEncoding("UTF-8");
-			response.setCharacterEncoding("UTF-8");
 			try {
 				request.setAttribute("types", GoodsQuery.getTypes());
 				request.setAttribute("models", GoodsQuery.getModels());
@@ -78,20 +77,25 @@ public class GuitarsCatalog extends HttpServlet {
 
 		} else {
 			int idGood = Integer.parseInt(request.getParameter("id_good"));
-			int idOrder = 0;
+			HttpSession session = request.getSession();
 
 			if (idGood > 0) {
-				try {
-					if (BasketQuery.addGoodsToBasket(idGood, idOrder)) {
-						request.setCharacterEncoding("UTF-8");
-						response.setCharacterEncoding("UTF-8");
-						response.getWriter()
-								.print("Товар " + GoodsQuery.getGoodNameById(idGood) + " успешно добавлен в корзину!");
+				if(UsersQuery.UserExist(request, response)) {
+					int idOrder = (int) session.getAttribute("idOrder");
+					try {
+						if (BasketQuery.addGoodsToBasket(idGood, idOrder)) {
+							request.setCharacterEncoding("UTF-8");
+							response.setCharacterEncoding("UTF-8");
+							response.getWriter()
+									.print("Товар " + GoodsQuery.getGoodNameById(idGood) + " успешно добавлен в корзину!");
+						}
+					} catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException
+							| IllegalArgumentException | InvocationTargetException | NoSuchMethodException
+							| SecurityException e) {
+						e.printStackTrace();
 					}
-				} catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException
-						| IllegalArgumentException | InvocationTargetException | NoSuchMethodException
-						| SecurityException e) {
-					e.printStackTrace();
+				} else {
+					response.getWriter().print("Для совершения покупки необходимо авторизоваться!");
 				}
 			}
 		}
