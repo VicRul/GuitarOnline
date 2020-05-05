@@ -104,7 +104,7 @@ public class UsersQuery {
 			mail = rs.getString("mail");
 			phone = rs.getString("phone");
 		}
-
+		rs.close();
 		return new User(userId, fio, mail, phone);
 	}
 

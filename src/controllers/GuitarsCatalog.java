@@ -82,6 +82,7 @@ public class GuitarsCatalog extends HttpServlet {
 			if (idGood > 0) {
 				if(UsersQuery.UserExist(request, response)) {
 					int idOrder = (int) session.getAttribute("idOrder");
+					System.out.println("idOrder = " + idOrder + ", idGood = " + idGood);
 					try {
 						if (BasketQuery.addGoodsToBasket(idGood, idOrder)) {
 							request.setCharacterEncoding("UTF-8");

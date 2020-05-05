@@ -7,6 +7,10 @@
 		<title>Insert title here</title>
 	</head>
 	<body>
-	
+		<form action="Authorization" method="POST">
+			<input type="text" name="mail">
+			<input type="password" name="pass">
+       		<input type="submit" value="Войти">
+		</form>
 	</body>
 </html>
