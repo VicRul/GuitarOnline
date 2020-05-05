@@ -57,36 +57,21 @@
 					}		
 				);
 			}
-			
-			function filter(){
-				var dataStr = "model=" + $('#model').val() + "&type=" + $('#type').val();
-				alert("1");
-				$.ajax(
-					{
-						type:"POST",
-						url:"GuitarsCatalog",
-						data:dataStr,
-						success:function(msg){
-							$("h1").html(msg);						
-						}
-					}		
-				);
-			}
 		</script>
 		<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 	</head>
 	<body>
 		<div>
-			<form method="post" onsubmit="filter()">
+			<form action="GuitarsCatalog" method="POST">
 				<p>Выберите производителя:</p>
-        		<select id="model">
+        		<select id="models" name="model">
         		<option value=0></option>
         			<c:forEach items="${models}" var="model">
         				<option value=${model.idModel}>${model.model}</option>
         			</c:forEach>
        			</select>
        			<p>Выберите тип:</p>
-        		<select id="type">
+        		<select id="types" name="type">
         		<option value=0></option>
         			<c:forEach items="${types}" var="type">
         				<option value=${type.idType}>${type.type}</option>

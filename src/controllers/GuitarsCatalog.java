@@ -32,9 +32,6 @@ public class GuitarsCatalog extends HttpServlet {
 		if (request.getParameter("id_good") == null) {
 			request.setCharacterEncoding("UTF-8");
 			response.setCharacterEncoding("UTF-8");
-//======================================================================================================
-//Эта часть кода для сортировки товара по модели и типу. Пока что не работает.
-//======================================================================================================
 			try {
 				request.setAttribute("types", GoodsQuery.getTypes());
 				request.setAttribute("models", GoodsQuery.getModels());
@@ -51,13 +48,17 @@ public class GuitarsCatalog extends HttpServlet {
 
 					if (idModel > 0) {
 						if (idType > 0) {
-							request.setAttribute("goods", GoodsQuery.getGoodsByTypeAndModel(idType, idModel));
+							request.setAttribute("goods", GoodsQuery.getGoodsByTypeAndModel(idType, idModel)); 
+							idModel = 0;
+							idType = 0;
 						} else {
 							request.setAttribute("goods", GoodsQuery.getGoodsByModel(idModel));
+							idModel = 0;
 						}
 					} else {
 						if (idType > 0) {
 							request.setAttribute("goods", GoodsQuery.getGoodsByType(idType));
+							idType = 0;
 						} else {
 							request.setAttribute("goods", GoodsQuery.getGoods());
 						}
@@ -73,7 +74,6 @@ public class GuitarsCatalog extends HttpServlet {
 
 				e.printStackTrace();
 			}
-//======================================================================================================
 			request.getRequestDispatcher("WEB-INF/views/Goods.jsp").forward(request, response);
 
 		} else {
@@ -96,5 +96,4 @@ public class GuitarsCatalog extends HttpServlet {
 			}
 		}
 	}
-
 }

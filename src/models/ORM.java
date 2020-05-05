@@ -3,6 +3,7 @@ package models;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
 import java.util.HashMap;
+import java.util.TimeZone;
 
 public class ORM {
 	private Connection conn;
@@ -12,7 +13,7 @@ public class ORM {
 	private ORM() throws ClassNotFoundException, SQLException, InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
 
-		String url = "jdbc:mysql://localhost/guitarshop?serverTimezone=Europe/Moscow&useSSL=false";
+		String url = "jdbc:mysql://localhost/guitarshop?autoReconnect=true&serverTimezone=" + TimeZone.getDefault().getID();
 		Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
 		conn = DriverManager.getConnection(url, "root", "");
 		instance = this;
