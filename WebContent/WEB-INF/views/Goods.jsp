@@ -64,7 +64,7 @@
 		<header>
 		<nav class="container">
 		  <div class="auth">
-		  	<a href="">Войти/Зарегистрироваться</a>
+		  	<a href="Authorization">Войти/Зарегистрироваться</a>
 		  </div>
 		</nav>
   		</header>
