@@ -43,9 +43,10 @@ public class Authorization extends HttpServlet {
 				
 				idOrder = OrdersQuery.createOrder(idUser);
 				session.setAttribute("idOrder",idOrder);
-				response.getWriter().print("Добро пожаловать!");
+				System.out.println("Авторизация прошла");
+				response.sendRedirect("http://localhost:8080/GuitarOnline/GuitarsCatalog");
 			} else {
-				response.getWriter().print("Учетные данные не корректны!");
+				System.out.println("Авторизация не прошла");
 			}
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException | NoSuchMethodException | SecurityException | SQLException e) {

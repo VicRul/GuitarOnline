@@ -48,30 +48,9 @@ public class UsersQuery {
 				"where mail = '" + mail + "' and password = '" + password + "'");
 		if (rs.next()) {
 			isLoggedIn = true;
-			HashMap<String, String> values = new HashMap<String, String>();
-			values.put("auth_status", "1");
-			ORM.update("users", values, "where mail = '" + mail + "'");
 		}
 		rs.close();
 		return isLoggedIn;
-	}
-
-	/* Выход из учетной записи пользователя */
-	public static boolean loggedOut(int idUser)
-			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
-			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
-
-		boolean isLoggedOut = false;
-		ResultSet rs = ORM.select("users", new String[] {}, "where id_user = '" + idUser + "' and auth_status = 1");
-
-		if (rs.next()) {
-			isLoggedOut = true;
-			HashMap<String, String> values = new HashMap<String, String>();
-			values.put("auth_status", "0");
-			ORM.update("users", values, "where id_user = '" + idUser + "'");
-		}
-		rs.close();
-		return isLoggedOut;
 	}
 
 	/* Поиск id_user по e-mail */
@@ -113,7 +92,7 @@ public class UsersQuery {
 			throws ServletException, IOException {
 
 		HttpSession session = request.getSession();
-		if (session.getAttribute("id_user") != null) {
+		if (session.getAttribute("isUser") != null) {
 			return true;
 		}
 		return false;

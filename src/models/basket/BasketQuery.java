@@ -32,6 +32,7 @@ public class BasketQuery {
 		values.put("id_good", Integer.toString(idGood));
 		values.put("count", "1");
 		values.put("id_order", Integer.toString(idOrder));
+		System.out.println("idGood = " + idGood + " idOrder = " + idOrder);
 		rs.close();
 		return ORM.insert("basket", values);
 	}

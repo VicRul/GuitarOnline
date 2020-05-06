@@ -50,10 +50,7 @@
 					{
 						type:"POST",
 						url:"GuitarsCatalog",
-						data:dataStr,
-						success:function(msg){
-							alert(msg);						
-						}
+						data:dataStr
 					}		
 				);
 			}
