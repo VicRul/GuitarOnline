@@ -61,7 +61,12 @@
 		<header>
 		<nav class="container">
 		  <div class="auth">
-		  	<a href="Authorization">Войти/Зарегистрироваться</a>
+		  	<c:if test="${sessionScope.idUser != null}" > 
+				Добро пожаловать, ${user.getFio()}
+			</c:if>
+			<c:if test="${sessionScope.idUser == null}" >
+		  		<a href="Authorization">Войти/Зарегистрироваться</a>
+			</c:if>
 		  </div>
 		</nav>
   		</header>

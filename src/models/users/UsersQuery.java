@@ -92,7 +92,7 @@ public class UsersQuery {
 			throws ServletException, IOException {
 
 		HttpSession session = request.getSession();
-		if (session.getAttribute("isUser") != null) {
+		if (session.getAttribute("idUser") != null) {
 			return true;
 		}
 		return false;

@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import models.goods.GoodsQuery;
 import models.orders.OrdersQuery;
+import models.users.User;
 import models.users.UsersQuery;
 
 @WebServlet("/Authorization")
@@ -39,7 +41,7 @@ public class Authorization extends HttpServlet {
 				HttpSession session = request.getSession();
 				
 				idUser = UsersQuery.findUserId(mail);
-				session.setAttribute("isUser", idUser);
+				session.setAttribute("idUser", idUser);
 				
 				idOrder = OrdersQuery.createOrder(idUser);
 				session.setAttribute("idOrder",idOrder);

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import models.basket.BasketQuery;
 import models.goods.*;
+import models.users.User;
 import models.users.UsersQuery;
 
 @WebServlet("/GuitarsCatalog")
@@ -89,6 +90,9 @@ public class GuitarsCatalog extends HttpServlet {
 						if (BasketQuery.addGoodsToBasket(idGood, idOrder)) {
 							request.setCharacterEncoding("UTF-8");
 							response.setCharacterEncoding("UTF-8");
+							User user = UsersQuery.getInfoAboutUser((int)session.getAttribute("idUser"));
+							System.out.println(user);
+							request.setAttribute("user", user);
 							response.getWriter().print(
 									"Товар " + GoodsQuery.getGoodNameById(idGood) + " успешно добавлен в корзину!");
 							System.out.println(
