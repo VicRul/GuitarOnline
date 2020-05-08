@@ -36,7 +36,6 @@ public class GuitarsCatalog extends HttpServlet {
 		if (session.getAttribute("idOrder") != null) {
 			idOrder = (int) session.getAttribute("idOrder");
 			System.out.println("idOrder = " + idOrder);
-			//1
 		}
 
 		try {
