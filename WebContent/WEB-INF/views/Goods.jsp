@@ -2,48 +2,21 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>Каталог товаров</title>
-		<style type="text/css">
-		TABLE {
-			text-align: center;
-			width: 50%;
-			height: 30%;
-			border: 2px solid #000; 
-			border-collapse: collapse; 
-			margin: auto;
-			margin-top: -20%;
-		}
-		
-		TD, TH {
-			padding: 5px; 
-			border: 1px solid #000;
-			width: 5%; 
-		}
-		
-		FORM {
-			width: 17%;
-			height: 20%;
-			margin-top: 10%;
-			margin-left: 2%;
-			margin-bottom: 2%;
-			border: 2px solid #000; 
-			border-collapse: collapse;
-			padding: 10px;
-		}
-		
-		#toTheBasket{
-			margin-left: 2%;
-		}
-		
-		SELECT {
-			
-		}
-		
-		</style>
-		<script src="http://code.jquery.com/jquery-1.8.3.js"> </script>
-		<script>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Каталог товаров</title>
+<link rel="stylesheet" type="text/css"
+	href="https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,600italic,700,700italic|Playfair+Display:400,700&subset=latin,cyrillic">
+<link rel="stylesheet" type="text/css"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.css">
+<link rel="stylesheet" href="styles.css">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+<script src="http://code.jquery.com/jquery-1.8.3.js"> </script>
+<script>
 			function addBasket(id){
 				var dataStr = "id_good="+id;
 				$.ajax(
@@ -55,59 +28,84 @@
 				);
 			}
 		</script>
-		<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-	</head>
-	<body>
-		<header>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+</head>
+<body>
+	<header>
 		<nav class="container">
-		  <div class="auth">
-		  	<c:if test="${sessionScope.idUser != null}" > 
-				Добро пожаловать, ${user.getFio()}
+			<a class="logo" href=""> <span>G</span> <span>U</span> <span>I</span>
+				<span>T</span> <span>A</span> <span>R</span> <span>.</span> <span>O</span> <span>N</span>
+				<span>L</span> <span>I</span> <span>N</span> <span>E</span>
+			</a>
+			<c:if test="${sessionScope.idUser != null}">
+				<ul id="menu">
+					<li><a href="">Личный кабинет</a></li>
+					<li><a href="">Выход</a></li>
+				</ul>
+				<form action="Basket" method="get" id="searchform">
+					<button type="submit">
+						<i class="fa fa-cart-arrow-down"></i>
+					</button>
+				</form>
 			</c:if>
-			<c:if test="${sessionScope.idUser == null}" >
-		  		<a href="Authorization">Войти/Зарегистрироваться</a>
+			<c:if test="${sessionScope.idUser == null}">
+				<ul id="menu">
+					<li><a href="Authorization">Вход</a></li>
+					<li><a href="">Регистрация</a></li>
+				</ul>
 			</c:if>
-		  </div>
 		</nav>
-  		</header>
-  		<div class="container">
-			<div>
-				<form action="GuitarsCatalog" method="POST">
-					<p>Выберите производителя:</p>
-	        		<select id="models" name="model">
-	        		<option value=0></option>
-	        			<c:forEach items="${models}" var="model">
-	        				<option value=${model.idModel}>${model.model}</option>
-	        			</c:forEach>
-	       			</select>
-	       			<p>Выберите тип:</p>
-	        		<select id="types" name="type">
-	        		<option value=0></option>
-	        			<c:forEach items="${types}" var="type">
-	        				<option value=${type.idType}>${type.type}</option>
-	        			</c:forEach>
-	       			</select>
-	       			<input type="submit" value="Поиск">
-				</form>	
-			</div>
-			<div>
-				<a id="toTheBasket" href="Basket" title="В корзину"><img width="20%" src="img\buttons\to_basket.png"></a>
-			</div>
-			<div>
+	</header>
+	<div class="container">
+		<div class="posts-list">
+			<c:forEach items="${goods}" var="good">
 				<table>
 					<tr>
-						<c:forEach items="${goods}" var="good">
-							<tr>
-								<td><img width="100 px" src=${good.img}></td>
-								<td>${good.title}</td>
-								<td>${good.price} ₽</td>
-								<td>${good.info}</td>
-								<td><a onclick="addBasket(${good.idGood})" href='#'><img width="100%" src="img\buttons\to_basket.png"></a></td>
-							</tr>
-						</c:forEach>
+						<td rowspan="4"><img width="10%" src=${good.img}></td>
+						<td colspan="2"><h3>${good.title}</h3></td>
+					</tr>
+					<tr>
+						<td colspan="2">${good.info}</td>
+					</tr>
+					<tr>
+						<td><a class="good_link" href='#'>Отзывы</a></td>
+						<td><a class="good_link" onclick="addBasket(${good.idGood})"
+							href='#'>В корзину</a><span class="result"></span></td>
+					</tr>
+					<tr>
+						<td colspan="2">Цена: ${good.price}₽</td>
 					</tr>
 				</table>
+			</c:forEach>
+		</div>
+		<aside>
+			<div class="widget">
+				<h3 class="widget-title">Поиск</h3>
+				<form action="GuitarsCatalog" method="POST" id="sort">
+					<p>Выберите производителя:</p>
+					<div class="select">
+						<select id="models" name="model">
+							<option value=0></option>
+							<c:forEach items="${models}" var="model">
+								<option value=${model.idModel}>${model.model}</option>
+							</c:forEach>
+						</select>
+					</div>
+					<p>Выберите тип:</p>
+					<div class="select">
+						<select id="types" name="type">
+							<option value=0></option>
+							<c:forEach items="${types}" var="type">
+								<option value=${type.idType}>${type.type}</option>
+							</c:forEach>
+						</select>
+					</div>
+					<div class="btn-wrapper">
+						<input type="submit" value="Поиск">
+					</div>
+				</form>
 			</div>
-		</div>	
-	</body>
+		</aside>
+	</div>
+</body>
 </html>
