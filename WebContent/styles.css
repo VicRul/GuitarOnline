@@ -333,39 +333,3 @@ aside {
 .widget-post-title {
 	float: left;
 }
-/* форма подписки */
-#subscribe {
-	position: relative;
-	width: 100%;
-	padding: 15px 0;
-}
-
-#subscribe input {
-	width: 100%;
-	display: block;
-	float: left;
-	border: 2px solid #EBEBE3;
-	padding: 0 0 0 10px;
-	height: 40px;
-	position: relative;
-	outline: none;
-	color: #9E9C9C;
-	font-style: italic;
-}
-
-#subscribe button {
-	padding: 0 15px;
-	background: transparent;
-	height: 40px;
-	border: none;
-	position: absolute;
-	right: 0;
-	color: #EF5A42;
-	cursor: pointer;
-	font-size: 18px;
-}
-
-#subscribe input:focus+button {
-	background: #EF5A42;
-	color: white;
-}

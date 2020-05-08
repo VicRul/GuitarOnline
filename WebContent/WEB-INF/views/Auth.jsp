@@ -23,8 +23,7 @@
 	<header>
 		<nav class="container">
 			<a class="logo" href=""> <span>G</span> <span>U</span> <span>I</span>
-				<span>T</span> <span>A</span> <span>R</span> <span>.</span> <span>O</span>
-				<span>N</span> <span>L</span> <span>I</span> <span>N</span> <span>E</span>
+				<span>T</span> <span>A</span> <span>R</span> <span>S</span>
 			</a>
 		</nav>
 	</header>
