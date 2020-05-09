@@ -7,14 +7,16 @@ public class Basket {
 	private String title;
 	private int price;
 	private int count;
+	private int sum;
 	
-	public Basket(String img, int id_good, String title, int price, int count) {
+	public Basket(String img, int id_good, String title, int price, int count, int sum) {
 	
 		this.img = img;
 		this.id_good = id_good;
 		this.title = title;
 		this.price = price;
 		this.count = count;
+		this.sum = sum;
 	}
 
 	
@@ -38,8 +40,12 @@ public class Basket {
 		return count;
 	}
 
+	public int getSum() {
+		return sum;
+	}
+
 	@Override
 	public String toString() {
-		return "Картинка: " + img + "\nКод товара: " + id_good + "\nНаименование: " + title + "\nЦена: " + price + "\nКоличество: " + count + "\n\n";
+		return "Картинка: " + img + "\nКод товара: " + id_good + "\nНаименование: " + title + "\nЦена: " + price + "\nКоличество: " + count + "\nСумма:" + sum + "\n\n";
 	}
 }

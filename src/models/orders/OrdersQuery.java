@@ -36,13 +36,26 @@ public class OrdersQuery {
 	public static int createOrder(int idUser)
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
-		int idOrder = ORM.findMaxId("id_order", "orders") + 1;
+		
+		int idOrder = 0;
 
-		HashMap<String, String> values = new HashMap<String, String>();
-		values.put("id_order", Integer.toString(idOrder));
-		values.put("id_user", Integer.toString(idUser));
-		ORM.insert("orders", values);
+		ResultSet rs = ORM.select("orders", new String[] {"id_order"}, "where id_status = 1 and id_user = " + idUser);
+		
+		if (rs.next()) {
+			idOrder = rs.getInt("id_order"); // Если в прошлую сессию пользователь что-то добавлял
+											 //в корзину, но не подтвердил заказ и вышел, то в новую сессию
+											 //продолжится работа именно с этим заказом, ранее выбранные товары будут уже в корзине
+		} else {
+			idOrder = ORM.findMaxId("id_order", "orders") + 1; // Иначе создаем новый заказ
+			
+			HashMap<String, String> values = new HashMap<String, String>();
+			values.put("id_order", Integer.toString(idOrder));
+			values.put("id_user", Integer.toString(idUser));
+			values.put("id_status", "1");
+			ORM.insert("orders", values);
+		}
 
+		rs.close();
 		return idOrder;
 	}
 
