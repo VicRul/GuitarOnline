@@ -50,7 +50,7 @@
 			<c:if test="${sessionScope.idUser == null}">
 				<ul id="menu">
 					<li><a href="Authorization">Вход</a></li>
-					<li><a href="">Регистрация</a></li>
+					<li><a href="Registration">Регистрация</a></li>
 				</ul>
 			</c:if>
 		</nav>
