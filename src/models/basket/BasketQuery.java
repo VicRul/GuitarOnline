@@ -101,5 +101,15 @@ public class BasketQuery {
 		return orderSum;
 	}
 	
-	
+	public static void main(String[] args)
+			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
+			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
+		
+		ArrayList<Basket> values = getGoodsFromBasket(4);
+		for (Basket value : values) {
+			System.out.println(value);
+		}
+		
+		System.out.println(getTempSumOrder(4));
+	}
 }
