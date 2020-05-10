@@ -14,34 +14,49 @@ import javax.servlet.http.HttpSession;
 import models.orders.OrdersQuery;
 import models.users.UsersQuery;
 
-
 @WebServlet("/Orders")
 public class Orders extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
+		doPost(request, response);
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
-		
+
 		HttpSession session = request.getSession();
+
+		if (request.getParameter("id_last_order") != null) {
+			int idLastOrder = Integer.parseInt(request.getParameter("id_last_order"));
+			session.setAttribute("idLastOrder", idLastOrder);
+		}
 		
-		int idUser = (int)session.getAttribute("idUser");
+		int idUser = (int) session.getAttribute("idUser");
+		System.out.println("idUser = " + idUser);
 		int idStatus = 0;
 		try {
 			request.setAttribute("statuses", OrdersQuery.getOrderStatuses());
-			if (request.getParameter("idStatus") != null) {
-				idStatus = Integer.parseInt(request.getParameter("idStatus"));
-				request.setAttribute("orders", OrdersQuery.getAllUserOrders(idUser, idStatus));
+			System.out.println("Статусы подготовлены");
+			if (request.getParameter("id") != null) {
+				idStatus = Integer.parseInt(request.getParameter("id"));
+				System.out.println("idStatus = " + idStatus);
+				if (idStatus > 0) {
+					request.setAttribute("orders", OrdersQuery.getAllUserOrders(idUser, idStatus));
+					System.out.println("Фильтрованный список заказов готов");
+				} else {
+					request.setAttribute("orders", OrdersQuery.getAllUserOrders(idUser));
+					System.out.println("Список заказов готов");}
 			} else {
 				request.setAttribute("orders", OrdersQuery.getAllUserOrders(idUser));
+				System.out.println("Список заказов готов");
 			}
 			request.setAttribute("user", UsersQuery.getInfoAboutUser(idUser));
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException

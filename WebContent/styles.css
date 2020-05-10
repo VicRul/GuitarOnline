@@ -33,6 +33,19 @@ a {
 	background-color: #ccc;
 }
 
+.basket_link {
+	color: #111;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	font-weight: 600;
+	display: block;
+	line-height: normal;
+}
+
+.basket_link:hover {
+	color: #EF5A42;
+}
+
 img {
 	display: block;
 	width: 100%;
@@ -210,6 +223,38 @@ table.review {
 table.review th {
 	border: 1px solid rgba(99, 78, 78, 0.7);
 	text-align: center
+}
+
+table.orders {
+	margin-top: 20px;
+	text-align: center;
+	width: 100%;
+	height: 5%;
+	background: rgba(241, 233, 233, 0.7);
+	border-collapse: collapse;
+	border: 1px solid rgba(241, 233, 233, 0.7);
+	border-radius: 5px;
+	font-family: "Roboto";
+	font-size: 18px;
+	color: rgba(8, 8, 8, 0.77);
+	padding-right: 50px;
+}
+
+table.orders td#numOrder {
+	text-align: left;
+	width: 5%;
+}
+
+table.orders td#dateOrder {
+	width: 40%;
+}
+
+table.orders td#stOrder {
+	width: 20%;
+}
+
+table.orders td#sumOrder {
+	width: 20%;
 }
 
 /* правый контейнер */

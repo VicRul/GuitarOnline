@@ -86,7 +86,7 @@ public class OrdersQuery {
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
 
 		ResultSet rs = ORM.select("orders o inner join status s on s.id_status = o.id_status",
-				new String[] { "id_order", "status", "sum_order" }, "where id_user = " + idUser);
+				new String[] { "id_order", "status", "sum_order", "date_order" }, "where id_user = " + idUser);
 		orders.clear();
 		while (rs.next()) {
 			int idOrder = rs.getInt("id_order");
@@ -106,7 +106,7 @@ public class OrdersQuery {
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
 
 		ResultSet rs = ORM.select("orders o inner join status s on s.id_status = o.id_status",
-				new String[] { "id_order", "status", "sum_order" }, "where id_user = " + idUser + " and o.id_status = " + idStatus);
+				new String[] { "id_order", "status", "sum_order", "date_order" }, "where id_user = " + idUser + " and o.id_status = " + idStatus);
 		orders.clear();
 		while (rs.next()) {
 			int idOrder = rs.getInt("id_order");
@@ -118,5 +118,21 @@ public class OrdersQuery {
 		}
 
 		return orders;
+	}
+	
+	/* Получаем статус заказа */
+	public static String getOrderStatus(int idOrder)
+			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
+			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
+		
+		String status = "";
+		ResultSet rs = ORM.select("status s inner join orders o on s.id_status = o.id_status", new String[] {"status"}, "WHERE id_order = " + idOrder);
+		
+		if (rs.next()) {
+			status = rs.getString(1);
+		}
+		
+		rs.close();
+		return status;
 	}
 }
