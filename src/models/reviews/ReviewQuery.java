@@ -37,7 +37,7 @@ public class ReviewQuery {
 		
 		ResultSet rs = ORM.select("goods g inner join reviews r on g.id_good = r.id_good inner join users u on r.id_user = u.id_user", 
 								  new String[] {"u.fio", "g.title", "advantages", "disadvantages", "comment", "date_review"}, "where r.id_good = " + idGood);
-		
+		reviews.clear();
 		while (rs.next()) {
 			String fio = rs.getString("u.fio");
 			String title = rs.getString("g.title");

@@ -3,37 +3,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Каталог товаров</title>
-<link rel="stylesheet" type="text/css"
-	href="https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,600italic,700,700italic|Playfair+Display:400,700&subset=latin,cyrillic">
-<link rel="stylesheet" type="text/css"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.css">
-<link rel="stylesheet" href="styles.css">
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
-<script src="http://code.jquery.com/jquery-1.8.3.js"> </script>
-<script>
-			function addBasket(id){
-				var dataStr = "id_good="+id+"&ClickButton=true";
-				$.ajax(
-					{
-						type:"GET",
-						url:"CardProduct",
-						data:dataStr
-					}		
-				);
-			}
-		</script>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Каталог товаров</title>
+	<link rel="stylesheet" type="text/css"
+		href="https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,600italic,700,700italic|Playfair+Display:400,700&subset=latin,cyrillic">
+	<link rel="stylesheet" type="text/css"
+		href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.css">
+	<link rel="stylesheet" href="styles.css">
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+	<script src="http://code.jquery.com/jquery-1.8.3.js"> </script>
+	<script>
+				function addBasket(id){
+					var dataStr = "id_good="+id+"&ClickButton=true";
+					$.ajax(
+						{
+							type:"GET",
+							url:"CardProduct",
+							data:dataStr
+						}		
+					);
+				}
+			</script>
+	<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 </head>
 <body>
 	<header>
 		<nav class="container">
-			<a class="logo" href=""> <span>G</span> <span>U</span> <span>I</span>
+			<a class="logo" href="http://localhost:8080/GuitarOnline/GuitarsCatalog"> <span>G</span> <span>U</span> <span>I</span>
 				<span>T</span> <span>A</span> <span>R</span> <span>S</span>
 			</a>
 			<c:if test="${sessionScope.idUser != null}">
@@ -57,22 +57,71 @@
 	</header>
 	<div class="container">
 		<div class="posts-list">
-				<table>
+			<table>
+				<tr>
+					<td rowspan="4"><img width="10%" src=${product.img}></td>
+					<td colspan="2"><h3>${product.title}</h3></td>
+				</tr>
+				<tr>
+					<td colspan="2">${product.info}</td>
+				</tr>
+				<tr>
+					<td colspan="2"><a class="good_link"
+						onclick="addBasket(${product.idGood})" href='#'>В корзину</a><span
+						class="result"></span></td>
+				</tr>
+				<tr>
+					<td colspan="2">Цена: ${product.price}₽</td>
+				</tr>
+			</table>
+			<br>
+			<div class="widget">
+				<h3 class="widget-title">Оставить отзыв</h3>
+				<form action="CardProduct" method="post">
+					<p>Плюсы</p>
+					<div class="input">
+						<input type="text" name="advantages">
+					</div>
+					<p>Минусы</p>
+					<div class="input">
+						<input type="text" name="disadvantages">
+					</div>
+					<p>Комментарий</p>
+					<div class="input">
+						<textarea name="comment" cols="30" rows="10"></textarea>
+					</div>
+					<div class="btn-wrapper">
+						<input	type="submit" value="Сохранить">
+					</div>	
+				</form>
+			</div>
+			<c:forEach items="${reviews}" var="rev">
+				<table class="review">
 					<tr>
-						<td rowspan="4"><img width="10%" src=${product.img}></td>
-						<td colspan="2"><h3>${product.title}</h3></td>
+						<th>
+							${rev.fio}
+						</th>
+						<th>
+							${rev.dateReview}
+						</th>
 					</tr>
 					<tr>
-						<td colspan="2">${product.info}</td>
+						<td colspan="2">
+							<span class="review_span">Плюсы: </span>${rev.advantages}
+						</td>
 					</tr>
 					<tr>
-						<td colspan="2"><a class="good_link" onclick="addBasket(${product.idGood})"
-							href='#'>В корзину</a><span class="result"></span></td>
+						<td colspan="2">
+							<span class="review_span">Минусы: </span>${rev.disadvantages}
+						</td>
 					</tr>
 					<tr>
-						<td colspan="2">Цена: ${product.price}₽</td>
+						<td colspan="2">
+							<span class="review_span">Комментарий: </span>${rev.comment}
+						</td>
 					</tr>
 				</table>
+			</c:forEach>
 		</div>
 	</div>
 </body>

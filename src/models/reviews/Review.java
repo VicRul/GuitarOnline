@@ -9,13 +9,13 @@ public class Review {
 	private String comment;
 	private String dateReview;
 	
-	public Review(String title, String fio, String advantages, String disadvantsges, String comment,
+	public Review(String title, String fio, String advantages, String disadvantages, String comment,
 			String dateReview) {
 		
 		this.title = title;
 		this.fio = fio;
 		this.advantages = advantages;
-		this.disadvantages = disadvantsges;
+		this.disadvantages = disadvantages;
 		this.comment = comment;
 		this.dateReview = dateReview;
 	}
@@ -33,7 +33,7 @@ public class Review {
 		return advantages;
 	}
 
-	public String getDisadvantsges() {
+	public String getDisadvantages() {
 		return disadvantages;
 	}
 

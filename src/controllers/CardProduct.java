@@ -85,4 +85,31 @@ public class CardProduct extends HttpServlet {
 			}
 		}
 	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		
+		HttpSession session = request.getSession();
+		if (session.getAttribute("idUser") != null) {
+			int idGood = (int) session.getAttribute("idGood");
+			int idUser = (int) session.getAttribute("idUser");
+			String advantages = request.getParameter("advantages");
+			String disadvantages = request.getParameter("disadvantages");
+			String comment = request.getParameter("comment");
+			try {
+				ReviewQuery.addReview(idUser, idGood, advantages, disadvantages, comment);
+				request.setAttribute("reviews", ReviewQuery.getReviews(idGood));
+				request.setAttribute("product", GoodsQuery.getProductById(idGood));
+			} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException
+					| InvocationTargetException | NoSuchMethodException | SecurityException | SQLException e) {
+				e.printStackTrace();
+			}
+			request.getRequestDispatcher("WEB-INF/views/CardProduct.jsp").forward(request, response);
+		} else {
+			System.out.println("Авторизуйтесь, чтобы добавить отзыв!");
+		}
+	}
 }
