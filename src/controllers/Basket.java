@@ -35,6 +35,7 @@ public class Basket extends HttpServlet {
 		try {
 			if (request.getParameter("DelPos") != null) {
 				int idGood = Integer.parseInt(request.getParameter("idGood"));
+				System.out.println("idGood для удаления = " + idGood);
 				BasketQuery.removePositionFromBasket(idGood, idOrder);
 			}
 			request.setAttribute("goods", BasketQuery.getGoodsFromBasket(idOrder));

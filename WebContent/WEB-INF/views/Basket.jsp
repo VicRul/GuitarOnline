@@ -20,15 +20,18 @@
 </script>
 <script>
 	function delPos(id) {
-		var dataStr = "idGood=" + id + "&DelPos = yes";
+		var dataStr = "idGood=" + id + "&DelPos=yes";
 		$.ajax({
 			type : "GET",
 			url : "Basket",
-			data : dataStr
+			data : dataStr,
+			success : function() {
+				window.location.href = "Basket";
+			}
 		});
 	}
 	function subOrder() {
-		var dataStr = "SubOrder = yes";
+		var dataStr = "SubOrder=yes";
 		$.ajax({
 			type : "GET",
 			url : "Basket",
