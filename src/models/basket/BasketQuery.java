@@ -17,7 +17,7 @@ public class BasketQuery {
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
 
-		ResultSet rs = ORM.select("basket", new String[] { "id_good", "count", "price" },
+		ResultSet rs = ORM.select("basket", new String[] {},
 				"where id_good = " + idGood + " and id_order = " + idOrder);
 		HashMap<String, String> values = new HashMap<String, String>();
 		if (rs.next()) {

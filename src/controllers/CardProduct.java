@@ -30,40 +30,59 @@ public class CardProduct extends HttpServlet {
 
 		HttpSession session = request.getSession();
 
-		int idGood = (int) session.getAttribute("idGood");
+		int idGood = 0;
+		idGood = (int) session.getAttribute("idGood");
 		System.out.println("Получили idGood = " + idGood);
-		try {
-			request.setAttribute("reviews", ReviewQuery.getReviews(idGood));
-			System.out.println("Сформировали списки комментариев");
-			request.setAttribute("product", GoodsQuery.getProductById(idGood));
-			System.out.println("Получили товар");
-		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException
-				| InvocationTargetException | NoSuchMethodException | SecurityException | SQLException e1) {
-			e1.printStackTrace();
-		}
-		
-		request.getRequestDispatcher("WEB-INF/views/CardProduct.jsp").forward(request, response);
-
-		if (session.getAttribute("idOrder") != null) {
-			System.out.println("idOrder не пустой");
-			int idOrder = (int) session.getAttribute("idOrder");
-			try {
-				if (BasketQuery.addGoodsToBasket(idGood, idOrder)) {
-					request.setCharacterEncoding("UTF-8");
-					response.setCharacterEncoding("UTF-8");
-					response.getWriter()
-							.print("Товар " + GoodsQuery.getGoodNameById(idGood) + " успешно добавлен в корзину!");
-					System.out.println("Товар " + GoodsQuery.getGoodNameById(idGood) + " успешно добавлен в корзину!");
+		if (session.getAttribute("idOrder") == null) {
+			if (request.getParameter("ClickButton") != null && request.getParameter("ClickButton").equals("true")) {
+				response.getWriter().print("Для совершения покупки необходимо авторизоваться!");
+				System.out.println("idOrder пустой");
+				System.out.println("Для совершения покупки необходимо авторизоваться!");
+			} else {
+				try {
+					request.setAttribute("reviews", ReviewQuery.getReviews(idGood));
+					System.out.println("Сформировали список комментариев");
+					request.setAttribute("product", GoodsQuery.getProductById(idGood));
+					System.out.println("Получили товар");
+				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+						| IllegalArgumentException | InvocationTargetException | NoSuchMethodException
+						| SecurityException | SQLException e1) {
+					e1.printStackTrace();
 				}
-			} catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException
-					| IllegalArgumentException | InvocationTargetException | NoSuchMethodException
-					| SecurityException e) {
-				e.printStackTrace();
+
+				request.getRequestDispatcher("WEB-INF/views/CardProduct.jsp").forward(request, response);
 			}
+
 		} else {
-			response.getWriter().print("Для совершения покупки необходимо авторизоваться!");
-			System.out.println("idOrder пустой");
-			System.out.println("Для совершения покупки необходимо авторизоваться!");
+			if (request.getParameter("ClickButton") != null && request.getParameter("ClickButton").equals("true")) {
+				System.out.println("idOrder не пустой");
+				int idOrder = (int) session.getAttribute("idOrder");
+				try {
+					if (BasketQuery.addGoodsToBasket(idGood, idOrder)) {
+						response.getWriter()
+								.print("Товар " + GoodsQuery.getGoodNameById(idGood) + " успешно добавлен в корзину!");
+						System.out.println(
+								"Товар " + GoodsQuery.getGoodNameById(idGood) + " успешно добавлен в корзину!");
+					}
+				} catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException
+						| IllegalArgumentException | InvocationTargetException | NoSuchMethodException
+						| SecurityException e) {
+					e.printStackTrace();
+				}
+			} else {
+				try {
+					request.setAttribute("reviews", ReviewQuery.getReviews(idGood));
+					System.out.println("Сформировали список комментариев");
+					request.setAttribute("product", GoodsQuery.getProductById(idGood));
+					System.out.println("Получили товар");
+				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+						| IllegalArgumentException | InvocationTargetException | NoSuchMethodException
+						| SecurityException | SQLException e1) {
+					e1.printStackTrace();
+				}
+
+				request.getRequestDispatcher("WEB-INF/views/CardProduct.jsp").forward(request, response);
+			}
 		}
 	}
 }

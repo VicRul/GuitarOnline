@@ -18,11 +18,11 @@
 <script src="http://code.jquery.com/jquery-1.8.3.js"> </script>
 <script>
 			function addBasket(id){
-				var dataStr = "id_good="+id;
+				var dataStr = "id_good="+id+"&ClickButton=true";
 				$.ajax(
 					{
-						type:"POST",
-						url:"GuitarsCatalog",
+						type:"GET",
+						url:"CardProduct",
 						data:dataStr
 					}		
 				);
@@ -66,8 +66,7 @@
 						<td colspan="2">${product.info}</td>
 					</tr>
 					<tr>
-						<td><a class="good_link" href='CardProduct'>Отзывы</a></td>
-						<td><a class="good_link" onclick="addBasket(${product.idGood})"
+						<td colspan="2"><a class="good_link" onclick="addBasket(${product.idGood})"
 							href='#'>В корзину</a><span class="result"></span></td>
 					</tr>
 					<tr>

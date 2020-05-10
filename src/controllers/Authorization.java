@@ -35,10 +35,11 @@ public class Authorization extends HttpServlet {
 		String pass = request.getParameter("pass");
 
 		int idUser = 0, idOrder = 0;
+		HttpSession session = request.getSession();
 
 		try {
+			session.removeAttribute("idGood");
 			if (UsersQuery.loggedIn(mail, pass)) {
-				HttpSession session = request.getSession();
 				
 				idUser = UsersQuery.findUserId(mail);
 				session.setAttribute("idUser", idUser);

@@ -81,16 +81,13 @@ public class GuitarsCatalog extends HttpServlet {
 				e.printStackTrace();
 			}
 			request.getRequestDispatcher("WEB-INF/views/Goods.jsp").forward(request, response);
-
 		} else {
 			int idGood = Integer.parseInt(request.getParameter("id_good"));
 			System.out.println("idGood = " + idGood);
-			if (idGood > 0) {
-				if (UsersQuery.UserExist(request, response)) {
+			if (UsersQuery.UserExist(request, response)) {
+				if (request.getParameter("inBasket") != null && request.getParameter("inBasket").equals("yes")) {
 					try {
 						if (BasketQuery.addGoodsToBasket(idGood, idOrder)) {
-							request.setCharacterEncoding("UTF-8");
-							response.setCharacterEncoding("UTF-8");
 							User user = UsersQuery.getInfoAboutUser((int) session.getAttribute("idUser"));
 							System.out.println(user);
 							request.setAttribute("user", user);
@@ -104,14 +101,15 @@ public class GuitarsCatalog extends HttpServlet {
 							| SecurityException e) {
 						e.printStackTrace();
 					}
-				} else if (request.getParameter("toCard").equals("yes")) {
-					idGood = Integer.parseInt(request.getParameter("id_good"));
-					session.setAttribute("idGood", idGood);
-				} else {
-					response.getWriter().print("Для совершения покупки необходимо авторизоваться!");
-					System.out.println("Для совершения покупки необходимо авторизоваться!");
-					idGood = 0;
 				}
+			} else {
+				response.getWriter().print("Для совершения покупки необходимо авторизоваться!");
+				System.out.println("Для совершения покупки необходимо авторизоваться!");
+				idGood = 0;
+			}
+			if (request.getParameter("toCard").equals("yes")) {
+				idGood = Integer.parseInt(request.getParameter("id_good"));
+				session.setAttribute("idGood", idGood);
 			}
 		}
 	}

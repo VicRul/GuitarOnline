@@ -18,7 +18,7 @@
 <script src="http://code.jquery.com/jquery-1.8.3.js"> </script>
 <script>
 			function addBasket(id){
-				var dataStr = "id_good="+id;
+				var dataStr = "id_good="+id+"&inBasket = yes";
 				$.ajax(
 					{
 						type:"POST",
