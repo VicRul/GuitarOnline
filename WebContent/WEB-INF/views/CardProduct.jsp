@@ -27,19 +27,6 @@
 					}		
 				);
 			}
-			function toTheReview(id){
-				var dataStr = "id_good="+id+"&toCard=yes";
-				$.ajax(
-					{
-						type:"POST",
-						url:"GuitarsCatalog",
-						data:dataStr,
-						success:function(){
-							window.location.href = "CardProduct";	
-						}
-					}		
-				);
-			}
 		</script>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 </head>
@@ -70,54 +57,24 @@
 	</header>
 	<div class="container">
 		<div class="posts-list">
-			<c:forEach items="${goods}" var="good">
 				<table>
 					<tr>
-						<td rowspan="4"><img width="10%" src=${good.img}></td>
-						<td colspan="2"><h3>${good.title}</h3></td>
+						<td rowspan="4"><img width="10%" src=${product.img}></td>
+						<td colspan="2"><h3>${product.title}</h3></td>
 					</tr>
 					<tr>
-						<td colspan="2">${good.info}</td>
+						<td colspan="2">${product.info}</td>
 					</tr>
 					<tr>
-						<td><a class="good_link" onclick="toTheReview(${good.idGood})" href='#'>Отзывы</a></td>
-						<td><a class="good_link" onclick="addBasket(${good.idGood})"
+						<td><a class="good_link" href='CardProduct'>Отзывы</a></td>
+						<td><a class="good_link" onclick="addBasket(${product.idGood})"
 							href='#'>В корзину</a><span class="result"></span></td>
 					</tr>
 					<tr>
-						<td colspan="2">Цена: ${good.price}₽</td>
+						<td colspan="2">Цена: ${product.price}₽</td>
 					</tr>
 				</table>
-			</c:forEach>
 		</div>
-		<aside>
-			<div class="widget">
-				<h3 class="widget-title">Поиск</h3>
-				<form action="GuitarsCatalog" method="POST" id="sort">
-					<p>Выберите производителя:</p>
-					<div class="select">
-						<select id="models" name="model">
-							<option value=0></option>
-							<c:forEach items="${models}" var="model">
-								<option value=${model.idModel}>${model.model}</option>
-							</c:forEach>
-						</select>
-					</div>
-					<p>Выберите тип:</p>
-					<div class="select">
-						<select id="types" name="type">
-							<option value=0></option>
-							<c:forEach items="${types}" var="type">
-								<option value=${type.idType}>${type.type}</option>
-							</c:forEach>
-						</select>
-					</div>
-					<div class="btn-wrapper">
-						<input type="submit" value="Поиск">
-					</div>
-				</form>
-			</div>
-		</aside>
 	</div>
 </body>
 </html>

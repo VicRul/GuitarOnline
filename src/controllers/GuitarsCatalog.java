@@ -33,55 +33,56 @@ public class GuitarsCatalog extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 
 		HttpSession session = request.getSession();
-		if (session.getAttribute("idOrder") != null) {
-			idOrder = (int) session.getAttribute("idOrder");
-			System.out.println("idOrder = " + idOrder);
-		}
+		if (request.getParameter("id_good") == null) {
+			if (session.getAttribute("idOrder") != null) {
+				idOrder = (int) session.getAttribute("idOrder");
+				System.out.println("idOrder = " + idOrder);
+			}
 
-		try {
-			request.setAttribute("types", GoodsQuery.getTypes());
-			request.setAttribute("models", GoodsQuery.getModels());
+			try {
+				request.setAttribute("types", GoodsQuery.getTypes());
+				request.setAttribute("models", GoodsQuery.getModels());
 
-			if (request.getParameter("model") == null) {
-				if (request.getParameter("type") == null) {
-					System.out.println("model and type == null");
-					request.setAttribute("goods", GoodsQuery.getGoods());
-				}
-			} else {
-				idModel = Integer.parseInt(request.getParameter("model"));
-				idType = Integer.parseInt(request.getParameter("type"));
-				System.out.println(idModel + " " + idType);
-
-				if (idModel > 0) {
-					if (idType > 0) {
-						request.setAttribute("goods", GoodsQuery.getGoodsByTypeAndModel(idType, idModel));
-						idModel = 0;
-						idType = 0;
-					} else {
-						request.setAttribute("goods", GoodsQuery.getGoodsByModel(idModel));
-						idModel = 0;
-					}
-				} else {
-					if (idType > 0) {
-						request.setAttribute("goods", GoodsQuery.getGoodsByType(idType));
-						idType = 0;
-					} else {
+				if (request.getParameter("model") == null) {
+					if (request.getParameter("type") == null) {
+						System.out.println("model and type == null");
 						request.setAttribute("goods", GoodsQuery.getGoods());
 					}
+				} else {
+					idModel = Integer.parseInt(request.getParameter("model"));
+					idType = Integer.parseInt(request.getParameter("type"));
+					System.out.println(idModel + " " + idType);
+
+					if (idModel > 0) {
+						if (idType > 0) {
+							request.setAttribute("goods", GoodsQuery.getGoodsByTypeAndModel(idType, idModel));
+							idModel = 0;
+							idType = 0;
+						} else {
+							request.setAttribute("goods", GoodsQuery.getGoodsByModel(idModel));
+							idModel = 0;
+						}
+					} else {
+						if (idType > 0) {
+							request.setAttribute("goods", GoodsQuery.getGoodsByType(idType));
+							idType = 0;
+						} else {
+							request.setAttribute("goods", GoodsQuery.getGoods());
+						}
+					}
 				}
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+					| InvocationTargetException | NoSuchMethodException | SecurityException e) {
+
+				e.printStackTrace();
 			}
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
-				| NoSuchMethodException | SecurityException e) {
+			request.getRequestDispatcher("WEB-INF/views/Goods.jsp").forward(request, response);
 
-			e.printStackTrace();
-		}
-		request.getRequestDispatcher("WEB-INF/views/Goods.jsp").forward(request, response);
-
-		if (request.getParameter("id_good") != null) {
+		} else {
 			int idGood = Integer.parseInt(request.getParameter("id_good"));
 			System.out.println("idGood = " + idGood);
 			if (idGood > 0) {
@@ -90,7 +91,7 @@ public class GuitarsCatalog extends HttpServlet {
 						if (BasketQuery.addGoodsToBasket(idGood, idOrder)) {
 							request.setCharacterEncoding("UTF-8");
 							response.setCharacterEncoding("UTF-8");
-							User user = UsersQuery.getInfoAboutUser((int)session.getAttribute("idUser"));
+							User user = UsersQuery.getInfoAboutUser((int) session.getAttribute("idUser"));
 							System.out.println(user);
 							request.setAttribute("user", user);
 							response.getWriter().print(
@@ -103,6 +104,9 @@ public class GuitarsCatalog extends HttpServlet {
 							| SecurityException e) {
 						e.printStackTrace();
 					}
+				} else if (request.getParameter("toCard").equals("yes")) {
+					idGood = Integer.parseInt(request.getParameter("id_good"));
+					session.setAttribute("idGood", idGood);
 				} else {
 					response.getWriter().print("Для совершения покупки необходимо авторизоваться!");
 					System.out.println("Для совершения покупки необходимо авторизоваться!");
