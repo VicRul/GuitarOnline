@@ -19,14 +19,22 @@
 	
 </script>
 <script>
-	function toTheBasket(id) {
-		var dataStr = "id_last_order=" + id + "&inBasket = yes";
+	function delPos(id) {
+		var dataStr = "idGood=" + id + "&DelPos = yes";
 		$.ajax({
-			type : "POST",
-			url : "Orders",
+			type : "GET",
+			url : "Basket",
+			data : dataStr
+		});
+	}
+	function subOrder() {
+		var dataStr = "SubOrder = yes";
+		$.ajax({
+			type : "GET",
+			url : "Basket",
 			data : dataStr,
 			success : function() {
-				window.location.href = "Basket";
+				window.location.href = "Orders";
 			}
 		});
 	}
@@ -73,23 +81,26 @@
 					<tr>
 						<td class="gPhoto"><img width="10%" src=${good.img}></td>
 						<td class="gTitle">${good.title}</td>
-						<td class="gPrice">${good.price}</td>
+						<td class="gPrice">${good.price}₽</td>
 						<td class="gCount">${good.count}</td>
-						<td class="gSum">${good.sum}</td>
+						<td class="gSum">${good.sum}₽</td>
 						<c:if test="${sessionScope.idCurentOrder.equals(sessionScope.idOrder)}">
-							<td class="gDel"><a class="good_link" onclick="delPos(${good.idGood}, ${sessionScope.idCurentOrder})" href='#'>Удалить</a></td>
+							<td class="gDel"><a class="good_link"
+								onclick="delPos(${good.idGood})"
+								href='#'>Удалить</a></td>
 						</c:if>
 					</tr>
-					<br><br>
-					<c:if test="${sessionScope.idCurentOrder.equals(sessionScope.idOrder)}">
-						<tr>
-							<td colspan="4">Итоговая сумма:</td>
-							<td>${totalSum}</td>
-							<td><a class="good_link" onclick="subOrder(${sessionScope.idCurentOrder})" href='#'>Оформить заказ</a></td>
-						</tr>
-					</c:if>
 				</table>
 			</c:forEach>
+			<c:if test="${sessionScope.idCurentOrder.equals(sessionScope.idOrder)}">
+				<table>
+					<tr>
+						<td>Итоговая сумма:</td>
+						<td>${totalSum}₽</td>
+						<td><a class="good_link" onclick="subOrder()" href='#'>Оформить заказ</a></td>
+					</tr>
+				</table>
+			</c:if>
 		</div>
 	</div>
 </body>
