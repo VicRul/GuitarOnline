@@ -240,20 +240,19 @@ table.orders {
 	padding-right: 50px;
 }
 
-table.orders td#numOrder {
-	text-align: left;
+.numOrder {
 	width: 5%;
 }
 
-table.orders td#dateOrder {
+.dateOrder {
 	width: 40%;
 }
 
-table.orders td#stOrder {
+.stOrder {
 	width: 20%;
 }
 
-table.orders td#sumOrder {
+.sumOrder {
 	width: 20%;
 }
 

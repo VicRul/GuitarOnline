@@ -74,22 +74,22 @@
 					<th colspan="4">История заказов</th>
 				</tr>
 				<tr>
-					<th>Номер</th>
-					<th>Дата</th>
-					<th>Статус</th>
-					<th>Сумма</th>
+					<th class="numOrder">Номер</th>
+					<th class="dateOrder">Дата</th>
+					<th class="stOrder">Статус</th>
+					<th class="sumOrder">Сумма</th>
 				</tr>
 			</table>
 			<c:forEach items="${orders}" var="order">
 				<table class="orders">
 					<tr>
-						<td id="numOrder">
+						<td class="numOrder">
 						${status.status}<td><a class="basket_link"
 							onclick="toTheBasket(${order.idOrder})" href='#'>№ - ${order.idOrder}</a></td>
 						</td>
-						<td id="dateOrder">${order.dateOrder}</td>
-						<td id="stOrder">${order.status}</td>
-						<td id="sumOrder">${order.sumOrder}</td>
+						<td class="dateOrder">${order.dateOrder}</td>
+						<td class="stOrder">${order.status}</td>
+						<td class="sumOrder">${order.sumOrder}</td>
 					</tr>
 				</table>
 			</c:forEach>

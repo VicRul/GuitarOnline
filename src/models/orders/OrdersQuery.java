@@ -36,18 +36,19 @@ public class OrdersQuery {
 	public static int createOrder(int idUser)
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
-		
+
 		int idOrder = 0;
 
-		ResultSet rs = ORM.select("orders", new String[] {"id_order"}, "where id_status = 1 and id_user = " + idUser);
-		
+		ResultSet rs = ORM.select("orders", new String[] { "id_order" }, "where id_status = 1 and id_user = " + idUser);
+
 		if (rs.next()) {
 			idOrder = rs.getInt("id_order"); // Если в прошлую сессию пользователь что-то добавлял
-											 //в корзину, но не подтвердил заказ и вышел, то в новую сессию
-											 //продолжится работа именно с этим заказом, ранее выбранные товары будут уже в корзине
+												// в корзину, но не подтвердил заказ и вышел, то в новую сессию
+												// продолжится работа именно с этим заказом, ранее выбранные товары
+												// будут уже в корзине
 		} else {
 			idOrder = ORM.findMaxId("id_order", "orders") + 1; // Иначе создаем новый заказ
-			
+
 			HashMap<String, String> values = new HashMap<String, String>();
 			values.put("id_order", Integer.toString(idOrder));
 			values.put("id_user", Integer.toString(idUser));
@@ -106,7 +107,8 @@ public class OrdersQuery {
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
 
 		ResultSet rs = ORM.select("orders o inner join status s on s.id_status = o.id_status",
-				new String[] { "id_order", "status", "sum_order", "date_order" }, "where id_user = " + idUser + " and o.id_status = " + idStatus);
+				new String[] { "id_order", "status", "sum_order", "date_order" },
+				"where id_user = " + idUser + " and o.id_status = " + idStatus);
 		orders.clear();
 		while (rs.next()) {
 			int idOrder = rs.getInt("id_order");
@@ -119,19 +121,20 @@ public class OrdersQuery {
 
 		return orders;
 	}
-	
+
 	/* Получаем статус заказа */
 	public static String getOrderStatus(int idOrder)
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
-		
+
 		String status = "";
-		ResultSet rs = ORM.select("status s inner join orders o on s.id_status = o.id_status", new String[] {"status"}, "WHERE id_order = " + idOrder);
-		
+		ResultSet rs = ORM.select("status s inner join orders o on s.id_status = o.id_status",
+				new String[] { "status" }, "WHERE id_order = " + idOrder);
+
 		if (rs.next()) {
 			status = rs.getString(1);
 		}
-		
+
 		rs.close();
 		return status;
 	}

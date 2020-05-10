@@ -85,7 +85,7 @@ public class GuitarsCatalog extends HttpServlet {
 			int idGood = Integer.parseInt(request.getParameter("id_good"));
 			System.out.println("idGood = " + idGood);
 			if (UsersQuery.UserExist(request, response)) {
-				if (request.getParameter("inBasket") != null && request.getParameter("inBasket").equals("yes")) {
+				if (request.getParameter("inBasket") != null) {
 					try {
 						if (BasketQuery.addGoodsToBasket(idGood, idOrder)) {
 							User user = UsersQuery.getInfoAboutUser((int) session.getAttribute("idUser"));
@@ -107,7 +107,7 @@ public class GuitarsCatalog extends HttpServlet {
 				System.out.println("Для совершения покупки необходимо авторизоваться!");
 				idGood = 0;
 			}
-			if (request.getParameter("toCard").equals("yes")) {
+			if (request.getParameter("toCard") != null) {
 				idGood = Integer.parseInt(request.getParameter("id_good"));
 				session.setAttribute("idGood", idGood);
 			}

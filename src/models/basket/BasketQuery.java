@@ -55,12 +55,12 @@ public class BasketQuery {
 		}
 		return removePositionFromBasket(idGood, idOrder); // Иначе удаляем всю позицию
 	}
-	
+
 	/* Удаляем всю позицию */
-	public static boolean removePositionFromBasket(int idGood, int idOrder) 
+	public static boolean removePositionFromBasket(int idGood, int idOrder)
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
-		
+
 		return ORM.delete("basket", "where id_good = '" + idGood + "' and id_order = '" + idOrder + "'");
 	}
 
@@ -69,20 +69,37 @@ public class BasketQuery {
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
 
-		String[] fields = new String[] { "g.id_good", "img", "title", "price", "img", "count", "id_order", "(count*price) sum" };
+		String[] fields = new String[] { "img", "title", "price", "img", "count", "id_order", "(count*price) sum" };
 		ResultSet rs = ORM.select("goods g inner join basket b on g.id_good=b.id_good", fields,
 				"where id_order = " + idOrder);
 		basket.clear();
 		while (rs.next()) {
 			String img = "img\\" + rs.getString("img");
-			int id_good = rs.getInt("g.id_good");
 			String title = rs.getString("title");
 			int price = rs.getInt("price");
 			int countGoods = rs.getInt("count");
 			int sum = rs.getInt("sum");
-			basket.add(new Basket(img, id_good, title, price, countGoods, sum));
+			basket.add(new Basket(idOrder, img, title, price, countGoods, sum));
 		}
 		rs.close();
 		return basket;
 	}
+
+	/* Получить текущую сумму заказа */
+	public static int getTempSumOrder(int idOrder)
+			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
+			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
+		int orderSum = 0;
+		ResultSet rs = ORM.select("goods g inner join basket b on g.id_good=b.id_good",
+				new String[] { "SUM(count*price) sum" }, "where id_order = " + idOrder);
+
+		if (rs.next()) {
+			orderSum = rs.getInt(1);
+		}
+
+		rs.close();
+		return orderSum;
+	}
+	
+	
 }
