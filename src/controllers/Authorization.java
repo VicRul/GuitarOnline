@@ -44,6 +44,7 @@ public class Authorization extends HttpServlet {
 				session.setAttribute("idUser", idUser);
 				
 				idOrder = OrdersQuery.createOrder(idUser);
+				System.out.println("idOrder = " + idOrder);
 				session.setAttribute("idOrder",idOrder);
 				System.out.println("Авторизация прошла");
 				response.sendRedirect("http://localhost:8080/GuitarOnline/GuitarsCatalog");

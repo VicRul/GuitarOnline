@@ -87,6 +87,7 @@ public class GuitarsCatalog extends HttpServlet {
 			if (UsersQuery.UserExist(request, response)) {
 				if (request.getParameter("inBasket") != null) {
 					try {
+						idOrder = (int) session.getAttribute("idOrder");
 						if (BasketQuery.addGoodsToBasket(idGood, idOrder)) {
 							User user = UsersQuery.getInfoAboutUser((int) session.getAttribute("idUser"));
 							System.out.println(user);
