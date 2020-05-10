@@ -51,7 +51,7 @@
 			</a>
 			<c:if test="${sessionScope.idUser != null}">
 				<ul id="menu">
-					<li><a href="">Личный кабинет</a></li>
+					<li><a href="Orders">Личный кабинет</a></li>
 					<li><a href="Exit">Выход</a></li>
 				</ul>
 				<form action="Basket" method="get" id="searchform">

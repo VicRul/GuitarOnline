@@ -5,11 +5,13 @@ public class Orders {
 	private int idOrder;
 	private int sumOrder;
 	private String status;
+	private String dateOrder;
 		
-	public Orders(int idOrder, int sumOrder, String status) {
+	public Orders(int idOrder, int sumOrder, String status, String dateOrder) {
 		this.idOrder = idOrder;
 		this.sumOrder = sumOrder;
 		this.status = status;
+		this.dateOrder = dateOrder;
 	}
 	
 
@@ -23,6 +25,10 @@ public class Orders {
 
 	public String getStatus() {
 		return status;
+	}
+	
+	public String getDateOrder() {
+		return dateOrder;
 	}
 
 

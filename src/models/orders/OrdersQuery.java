@@ -92,8 +92,9 @@ public class OrdersQuery {
 			int idOrder = rs.getInt("id_order");
 			int sumOrder = rs.getInt("sum_order");
 			String status = rs.getString("status");
+			String dateOrder = rs.getString("date_order");
 
-			orders.add(new Orders(idOrder, sumOrder, status));
+			orders.add(new Orders(idOrder, sumOrder, status, dateOrder));
 		}
 
 		return orders;
@@ -111,8 +112,9 @@ public class OrdersQuery {
 			int idOrder = rs.getInt("id_order");
 			int sumOrder = rs.getInt("sum_order");
 			String status = rs.getString("status");
+			String dateOrder = rs.getString("date_order");
 
-			orders.add(new Orders(idOrder, sumOrder, status));
+			orders.add(new Orders(idOrder, sumOrder, status, dateOrder));
 		}
 
 		return orders;
