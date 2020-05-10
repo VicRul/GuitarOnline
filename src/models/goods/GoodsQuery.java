@@ -120,7 +120,7 @@ public class GoodsQuery {
 		return goods;
 	}
 
-	/* Получить список товаров по типу */
+	/* Получить список товаров по типу и производителю */
 	public static ArrayList<Goods> getGoodsByTypeAndModel(int idType, int idModel)
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
@@ -159,14 +159,35 @@ public class GoodsQuery {
 		rs.close();
 		return name;
 	}
+	
+	/* Получаем объект класса Goods */
+	public static Goods getProductById(int idGood) 
+			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
+			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
+		
+		ResultSet rs = ORM.select("good_model m inner join goods g on m.id = g.id_model inner join good_type t on t.id = g.id_type", new String[] {}, "WHERE id_good = " + idGood);
+		
+		String title = "", model = "", type = "", img = "", info = "";
+		int price = 0;
+		
+		if (rs.next()) {
+			title = rs.getString("title");
+			model = rs.getString("model");
+			type = rs.getString("type");
+			price = rs.getInt("price");
+			img = "img\\" + rs.getString("img");
+			info = rs.getString("info");
+		}
+		
+		rs.close();
+		return new Goods(idGood, title, model, type, price, img, info);
+	}
 
 	public static void main(String[] args)
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
 
-		ArrayList<Goods> values = getGoods();
-		for (Goods value : values) {
-			System.out.println(value);
-		}
+		Goods good = getProductById(2);
+		System.out.println(good);
 	}
 }

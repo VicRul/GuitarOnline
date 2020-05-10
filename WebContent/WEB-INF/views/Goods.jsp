@@ -67,7 +67,7 @@
 						<td colspan="2">${good.info}</td>
 					</tr>
 					<tr>
-						<td><a class="good_link" href='#'>Отзывы</a></td>
+						<td><a class="good_link" href='CardProduct'>Отзывы</a></td>
 						<td><a class="good_link" onclick="addBasket(${good.idGood})"
 							href='#'>В корзину</a><span class="result"></span></td>
 					</tr>
