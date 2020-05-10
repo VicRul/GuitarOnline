@@ -38,7 +38,6 @@ public class Authorization extends HttpServlet {
 		HttpSession session = request.getSession();
 
 		try {
-			session.removeAttribute("idGood");
 			if (UsersQuery.loggedIn(mail, pass)) {
 				
 				idUser = UsersQuery.findUserId(mail);

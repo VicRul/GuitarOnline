@@ -3,15 +3,15 @@ package models.basket;
 public class Basket {
 
 	private String img;
-	private int idOrder;
+	private int idGood;
 	private String title;
 	private int price;
 	private int count;
 	private int sum;
 	
-	public Basket(int idOrder, String img, String title, int price, int count, int sum) {
+	public Basket(int idGood, String img, String title, int price, int count, int sum) {
 
-		this.idOrder = idOrder;
+		this.idGood = idGood;
 		this.img = img;
 		this.title = title;
 		this.price = price;
@@ -24,8 +24,8 @@ public class Basket {
 		return img;
 	}
 
-	public int getIdOrder() {
-		return idOrder;
+	public int getIdGood() {
+		return idGood;
 	}
 
 	public String getTitle() {
@@ -46,6 +46,6 @@ public class Basket {
 
 	@Override
 	public String toString() {
-		return "Картинка: " + img + "\nКод заказа: " + idOrder + "\nНаименование: " + title + "\nЦена: " + price + "\nКоличество: " + count + "\nСумма:" + sum + "\n\n";
+		return "Картинка: " + img + "\nКод товара: " + idGood + "\nНаименование: " + title + "\nЦена: " + price + "\nКоличество: " + count + "\nСумма:" + sum + "\n\n";
 	}
 }

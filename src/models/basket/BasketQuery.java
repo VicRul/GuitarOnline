@@ -69,17 +69,18 @@ public class BasketQuery {
 			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
 
-		String[] fields = new String[] { "img", "title", "price", "img", "count", "id_order", "(count*price) sum" };
+		String[] fields = new String[] { "g.id_good", "img", "title", "price", "img", "count", "id_order", "(count*price) sum" };
 		ResultSet rs = ORM.select("goods g inner join basket b on g.id_good=b.id_good", fields,
 				"where id_order = " + idOrder);
 		basket.clear();
 		while (rs.next()) {
+			int idGood = rs.getInt("g.id_good");
 			String img = "img\\" + rs.getString("img");
 			String title = rs.getString("title");
 			int price = rs.getInt("price");
 			int countGoods = rs.getInt("count");
 			int sum = rs.getInt("sum");
-			basket.add(new Basket(idOrder, img, title, price, countGoods, sum));
+			basket.add(new Basket(idGood, img, title, price, countGoods, sum));
 		}
 		rs.close();
 		return basket;
