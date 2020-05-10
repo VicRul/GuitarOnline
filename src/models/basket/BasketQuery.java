@@ -81,6 +81,7 @@ public class BasketQuery {
 			int countGoods = rs.getInt("count");
 			int sum = rs.getInt("sum");
 			basket.add(new Basket(idGood, img, title, price, countGoods, sum));
+			//
 		}
 		rs.close();
 		return basket;
