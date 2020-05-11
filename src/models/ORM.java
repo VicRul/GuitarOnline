@@ -49,7 +49,6 @@ public class ORM {
 				}
 			}
 			String query = "SELECT " + selectFields + " FROM " + table + " " + where;
-			System.out.println(query);
 			stmt = conn.prepareStatement(query);
 			return stmt.executeQuery(query);
 		}
@@ -96,7 +95,6 @@ public class ORM {
 
 		if (conn != null && !conn.isClosed()) {
 			String sqlQuery = "DELETE FROM " + table + " " + where;
-			System.out.println(sqlQuery);
 			stmt = conn.prepareStatement(sqlQuery);
 			return stmt.executeUpdate(sqlQuery) > 0;
 		}
@@ -122,7 +120,6 @@ public class ORM {
 					i++;
 				}
 				sqlQuery += " SET " + sqlValues + " " + where;
-				System.out.println(sqlQuery);
 				stmt = conn.prepareStatement(sqlQuery);
 				return stmt.executeUpdate(sqlQuery) > 0;
 			}
