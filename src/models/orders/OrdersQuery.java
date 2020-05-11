@@ -31,6 +31,22 @@ public class OrdersQuery {
 		rs.close();
 		return orderStatuses;
 	}
+	
+	/* Проверяем на пустой заказ */
+	public static boolean orderNotEmpty(int idOrder)
+			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
+			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
+		
+		ResultSet rs = ORM.select("basket", new String[] {}, "WHERE id_order = " + idOrder);
+		
+		if (rs.next()) {
+			rs.close();
+			return true;
+		}
+		
+		rs.close();
+		return false;
+	}
 
 	/* Оформляем заказ */
 	public static int createOrder(int idUser)
