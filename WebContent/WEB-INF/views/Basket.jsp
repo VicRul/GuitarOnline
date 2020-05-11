@@ -16,32 +16,32 @@
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
 <script src="http://code.jquery.com/jquery-1.8.3.js">
-	
-</script>
+		
+	</script>
 <script>
-	function delPos(id) {
-		var dataStr = "idGood=" + id + "&DelPos=yes";
-		$.ajax({
-			type : "GET",
-			url : "Basket",
-			data : dataStr,
-			success : function() {
-				window.location.href = "Basket";
-			}
-		});
-	}
-	function subOrder() {
-		var dataStr = "SubOrder=yes";
-		$.ajax({
-			type : "GET",
-			url : "Basket",
-			data : dataStr,
-			success : function() {
-				window.location.href = "Orders";
-			}
-		});
-	}
-</script>
+		function delPos(id) {
+			var dataStr = "idGood=" + id + "&DelPos=yes";
+			$.ajax({
+				type : "GET",
+				url : "Basket",
+				data : dataStr,
+				success : function() {
+					window.location.href = "Basket";
+				}
+			});
+		}
+		function subOrder() {
+			var dataStr = "SubOrder=yes";
+			$.ajax({
+				type : "GET",
+				url : "Basket",
+				data : dataStr,
+				success : function() {
+					window.location.href = "Orders";
+				}
+			});
+		}
+	</script>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 </head>
 <body>
@@ -65,43 +65,52 @@
 					<th>№ Заказа: ${sessionScope.idCurentOrder}
 				</tr>
 			</table>
-			<br> <br>
-			<table>
-				<tr>
-					<th class="gPhoto">Фото</th>
-					<th class="gTitle">Наименование</th>
-					<th class="gPrice">Цена</th>
-					<th class="gCount">Количество</th>
-					<th class="gSum">Сумма</th>
-					<c:if
-						test="${sessionScope.idCurentOrder.equals(sessionScope.idOrder)}">
-						<th class="gDel">Удалить</th>
-					</c:if>
-				</tr>
-			</table>
+			<br><br>
 			<c:forEach items="${goods}" var="good">
-				<table class="orders">
+				<table class="basketTable">
 					<tr>
-						<td class="gPhoto"><img width="10%" src=${good.img}></td>
+						<c:if
+							test="${sessionScope.idCurentOrder.equals(sessionScope.idOrder)}">
+							<td class="gPhoto" rowspan="5"><img width="10%"
+								src=${good.img}></td>
+						</c:if>
+						<c:if
+							test="${!sessionScope.idCurentOrder.equals(sessionScope.idOrder)}">
+							<td class="gPhoto" rowspan="4"><img width="1%"
+								src=${good.img}></td>
+						</c:if>
+						<th class="gTitle">Наименование:</th>
 						<td class="gTitle">${good.title}</td>
+					</tr>
+					<tr>
+						<th class="gPrice">Цена:</th>
 						<td class="gPrice">${good.price}₽</td>
+					</tr>
+					<tr>
+						<th class="gCount">Количество:</th>
 						<td class="gCount">${good.count}</td>
+					</tr>
+					<tr>
+						<th class="gSum">Сумма:</th>
 						<td class="gSum">${good.sum}₽</td>
-						<c:if test="${sessionScope.idCurentOrder.equals(sessionScope.idOrder)}">
-							<td class="gDel"><a class="good_link"
-								onclick="delPos(${good.idGood})"
-								href='#'>Удалить</a></td>
+					</tr>
+					<tr>
+						<c:if
+							test="${sessionScope.idCurentOrder.equals(sessionScope.idOrder)}">
+							<td class="gDel" colspan="2"><a class="good_link"
+								onclick="delPos(${good.idGood})" href='#'>Удалить</a></td>
 						</c:if>
 					</tr>
 				</table>
 			</c:forEach>
-			<c:if test="${sessionScope.idCurentOrder.equals(sessionScope.idOrder)}">			
+			<c:if
+				test="${sessionScope.idCurentOrder.equals(sessionScope.idOrder)}">
 				<c:if test="${sessionScope.emptyOrder == null}">
-					<table>
+					<table class="totalSum">
 						<tr>
 							<td>Итоговая сумма:</td>
 							<td>${totalSum}₽</td>
-							<td><a class="good_link" onclick="subOrder()" href='#'>Оформить заказ</a></td>
+							<td><a class="good_link" onclick="subOrder()" href='#'>Оформить</a></td>
 						</tr>
 					</table>
 				</c:if>
