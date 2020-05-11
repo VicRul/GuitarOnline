@@ -49,16 +49,5 @@ public class ReviewQuery {
 			reviews.add(new Review(title, fio, advantages, disadvantages, comment, dateReview));
 		}
 		return reviews;
-	}
-	
-	public static void main(String[] args)
-			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, 
-			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
-		
-		ArrayList<Review> values = getReviews(2);
-		
-		for(Review value : values) {
-			System.out.println(value);
-		}
 	}	
 }

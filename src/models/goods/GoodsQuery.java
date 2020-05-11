@@ -182,12 +182,4 @@ public class GoodsQuery {
 		rs.close();
 		return new Goods(idGood, title, model, type, price, img, info);
 	}
-
-	public static void main(String[] args)
-			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException,
-			InvocationTargetException, NoSuchMethodException, SecurityException, SQLException {
-
-		Goods good = getProductById(2);
-		System.out.println(good);
-	}
 }
