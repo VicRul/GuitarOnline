@@ -14,8 +14,8 @@ public class Exit extends HttpServlet {
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-        session.invalidate();
-		response.sendRedirect("http://localhost:8080/GuitarOnline/GuitarsCatalog");
+		HttpSession session = request.getSession(); // Получаем сессию
+        session.invalidate(); // Очищаем сессию
+		response.sendRedirect("http://localhost:8080/GuitarOnline/GuitarsCatalog"); // Перенаправляем на главную страницу
 	}
 }
