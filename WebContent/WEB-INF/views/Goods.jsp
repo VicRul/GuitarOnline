@@ -23,7 +23,15 @@
 						{
 							type:"POST",
 							url:"GuitarsCatalog",
-							data:dataStr
+							data:dataStr,
+							success : function(answer) {
+								alert(answer);
+								if(answer === "Для совершения покупки необходимо авторизоваться!") {
+									window.location.href = "Authorization";
+								} else {
+									window.location.href = "GuitarsCatalog";
+								}
+							}
 						}		
 					);
 				}
