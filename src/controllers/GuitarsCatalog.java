@@ -32,26 +32,23 @@ public class GuitarsCatalog extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(); // Получаем текущую сессию
 		if (request.getParameter("id_good") == null) {
 			if (session.getAttribute("idOrder") != null) {
-				idOrder = (int) session.getAttribute("idOrder");
-				System.out.println("idOrder = " + idOrder);
+				idOrder = (int) session.getAttribute("idOrder"); // Если пользователь авторизован получаем ID заказа
 			}
 
 			try {
-				request.setAttribute("types", GoodsQuery.getTypes());
+				request.setAttribute("types", GoodsQuery.getTypes()); // Получаем список типов товаров и список производителей для фильтрации на странице
 				request.setAttribute("models", GoodsQuery.getModels());
 
 				if (request.getParameter("model") == null) {
 					if (request.getParameter("type") == null) {
-						System.out.println("model and type == null");
-						request.setAttribute("goods", GoodsQuery.getGoods());
+						request.setAttribute("goods", GoodsQuery.getGoods()); // Если фильтры не установлены выводим весь список товаров
 					}
-				} else {
+				} else { // Иначе, в зависимости от выбранных значений формируем списко товаров для вывода на страницу
 					idModel = Integer.parseInt(request.getParameter("model"));
 					idType = Integer.parseInt(request.getParameter("type"));
-					System.out.println(idModel + " " + idType);
 
 					if (idModel > 0) {
 						if (idType > 0) {
@@ -80,20 +77,17 @@ public class GuitarsCatalog extends HttpServlet {
 
 				e.printStackTrace();
 			}
-			request.getRequestDispatcher("WEB-INF/views/Goods.jsp").forward(request, response);
+			request.getRequestDispatcher("WEB-INF/views/Goods.jsp").forward(request, response); //Выводим на страницу
 		} else {
-			int idGood = Integer.parseInt(request.getParameter("id_good"));
-			System.out.println("idGood = " + idGood);
-			if (UsersQuery.UserExist(request, response)) {
-				if (request.getParameter("inBasket") != null) {
+			int idGood = Integer.parseInt(request.getParameter("id_good")); // Получаем ID товара
+			if (UsersQuery.UserExist(request, response)) { // Если пользователь авторизован
+				if (request.getParameter("inBasket") != null) { // И нажал на кнопку "добавить в корзину"
 					try {
-						idOrder = (int) session.getAttribute("idOrder");
-						if (BasketQuery.addGoodsToBasket(idGood, idOrder)) {
-							session.removeAttribute("emptyOrder");
+						idOrder = (int) session.getAttribute("idOrder"); // Получаем из сессии ID заказа
+						if (BasketQuery.addGoodsToBasket(idGood, idOrder)) { // Добавляем товар в корзину
+							session.removeAttribute("emptyOrder"); // Удаляем данные аттрибут для отображения кнопки "оформить заказ"
 							response.getWriter().print(
-									"Товар " + GoodsQuery.getGoodNameById(idGood) + " успешно добавлен в корзину!");
-							System.out.println(
-									"Товар " + GoodsQuery.getGoodNameById(idGood) + " успешно добавлен в корзину!");
+									"Товар " + GoodsQuery.getGoodNameById(idGood) + " успешно добавлен в корзину!"); // Выводи сообщение
 						}
 					} catch (ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException
 							| IllegalArgumentException | InvocationTargetException | NoSuchMethodException
@@ -102,13 +96,12 @@ public class GuitarsCatalog extends HttpServlet {
 					}
 				}
 			} else {
-				response.getWriter().print("Для совершения покупки необходимо авторизоваться!");
-				System.out.println("Для совершения покупки необходимо авторизоваться!");
+				response.getWriter().print("Для совершения покупки необходимо авторизоваться!"); // Иначе просим пройти авторизацию
 				idGood = 0;
 			}
-			if (request.getParameter("toCard") != null) {
+			if (request.getParameter("toCard") != null) { // Если нажали на кнопку перехода в карточку товара
 				idGood = Integer.parseInt(request.getParameter("id_good"));
-				session.setAttribute("idGood", idGood);
+				session.setAttribute("idGood", idGood); // Получаем ID этого товара и запоминаем в сессии
 			}
 		}
 	}
