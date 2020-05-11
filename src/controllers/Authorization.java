@@ -31,31 +31,28 @@ public class Authorization extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		request.setCharacterEncoding("UTF-8");
 
-		String mail = request.getParameter("mail");
-		String pass = request.getParameter("pass");
+		String mail = request.getParameter("mail"); // Получаем почту
+		String pass = request.getParameter("pass"); // Получаем пароль
 
 		int idUser = 0, idOrder = 0;
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(); // Получаем сессию
 
 		try {
 			if (UsersQuery.loggedIn(mail, pass)) {
 				
 				idUser = UsersQuery.findUserId(mail);
-				session.setAttribute("idUser", idUser);
+				session.setAttribute("idUser", idUser); // Находим ID пользователя по почте в БД и записываем в аттрибут сессии
 				
 				idOrder = OrdersQuery.createOrder(idUser);
-				System.out.println("idOrder = " + idOrder);
-				session.setAttribute("idOrder",idOrder);
+				session.setAttribute("idOrder",idOrder); // Создаем заказ и записываем в аттрибут сессии
 				
 				if (!OrdersQuery.orderNotEmpty(idOrder)) {
 					session.setAttribute("emptyOrder", 1);// Если заказ пустой - добавляем новый аттрибут сессии, чтобы
-																// скрыть кнопку "оформить заказ" в корзине"
+																// скрыть кнопку "оформить заказ" в корзине. Нужно для просмотра прошлых заказов.
 				} 
-				response.getWriter().print("Добро пожаловать!");
-				System.out.println("Авторизация прошла");
+				response.getWriter().print("Добро пожаловать!"); // Выводим сообщение
 			} else {
-				response.getWriter().print("Учетные данные некорректны, попробуйте еще раз.");
-				System.out.println("Авторизация не прошла");
+				response.getWriter().print("Учетные данные некорректны, попробуйте еще раз."); // Выводим сообщение
 			}
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException | NoSuchMethodException | SecurityException | SQLException e) {
