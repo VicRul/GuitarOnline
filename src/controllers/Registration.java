@@ -27,28 +27,28 @@ public class Registration extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
         request.setCharacterEncoding("UTF-8");
         
-        String fio = request.getParameter("fio");
+        String fio = request.getParameter("fio"); // Получаем введенные значения
         String mail = request.getParameter("mail");
         String phone = request.getParameter("phone");
         String password = request.getParameter("password");
         int idUser = 0;
         
         if(fio.equals("") || mail.equals("") || phone.equals("") || password.equals("")) {
-        	response.getWriter().print("Необходимо заполнить все поля для регистрации");
+        	response.getWriter().print("Необходимо заполнить все поля для регистрации"); // Проверяем поля на ввод
         } else {
         	try {
-				if (UsersQuery.registrationUsers(fio, mail, phone, password)) {
-					HttpSession session = request.getSession();
+				if (UsersQuery.registrationUsers(fio, mail, phone, password)) { // Если все ок - регистрируем
+					HttpSession session = request.getSession(); // Получаем сессию
 					
-					idUser = UsersQuery.findUserId(mail);
+					idUser = UsersQuery.findUserId(mail); // Авторизируем пользователя. Добавляем в аттрибуты сессии ID пользователя и ID заказа
 					session.setAttribute("idUser", idUser);
 					
 					int idOrder = OrdersQuery.createOrder(idUser);
 					session.setAttribute("idOrder",idOrder);
-					response.getWriter().print("Добро пожаловать!");
-					System.out.println("Авторизация прошла");
+					response.getWriter().print("Добро пожаловать!"); // Выводим уведомление
 				} else {
 					response.getWriter().print("Указанный номер телефона или почтовый ящик уже зарегистрированы");
+						// Уведомляем если такие данные уже есть в БД
 				}
 			} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException
 					| InvocationTargetException | NoSuchMethodException | SecurityException | SQLException e) {
