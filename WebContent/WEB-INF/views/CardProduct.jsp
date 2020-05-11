@@ -48,6 +48,9 @@
 							if(answer === "Авторизуйтесь, чтобы добавить отзыв!") {
 								alert(answer);
 								window.location.href = "Authorization";
+							} else if(answer === "Для добавления отзыва необходимо заполнить все поля") {
+								alert(answer);
+								window.location.href = "CardProduct";
 							} else {
 								window.location.href = "CardProduct";
 							}
