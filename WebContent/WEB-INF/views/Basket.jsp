@@ -95,14 +95,16 @@
 					</tr>
 				</table>
 			</c:forEach>
-			<c:if test="${sessionScope.idCurentOrder.equals(sessionScope.idOrder)}">
-				<table>
-					<tr>
-						<td>Итоговая сумма:</td>
-						<td>${totalSum}₽</td>
-						<td><a class="good_link" onclick="subOrder()" href='#'>Оформить заказ</a></td>
-					</tr>
-				</table>
+			<c:if test="${sessionScope.idCurentOrder.equals(sessionScope.idOrder)}">			
+				<c:if test="${sessionScope.emptyOrder == null}">
+					<table>
+						<tr>
+							<td>Итоговая сумма:</td>
+							<td>${totalSum}₽</td>
+							<td><a class="good_link" onclick="subOrder()" href='#'>Оформить заказ</a></td>
+						</tr>
+					</table>
+				</c:if>
 			</c:if>
 		</div>
 	</div>

@@ -89,9 +89,7 @@ public class GuitarsCatalog extends HttpServlet {
 					try {
 						idOrder = (int) session.getAttribute("idOrder");
 						if (BasketQuery.addGoodsToBasket(idGood, idOrder)) {
-							User user = UsersQuery.getInfoAboutUser((int) session.getAttribute("idUser"));
-							System.out.println(user);
-							request.setAttribute("user", user);
+							session.removeAttribute("emptyOrder");
 							response.getWriter().print(
 									"Товар " + GoodsQuery.getGoodNameById(idGood) + " успешно добавлен в корзину!");
 							System.out.println(

@@ -59,6 +59,7 @@ public class CardProduct extends HttpServlet {
 				int idOrder = (int) session.getAttribute("idOrder");
 				try {
 					if (BasketQuery.addGoodsToBasket(idGood, idOrder)) {
+						session.removeAttribute("emptyOrder");
 						response.getWriter()
 								.print("Товар " + GoodsQuery.getGoodNameById(idGood) + " успешно добавлен в корзину!");
 						System.out.println(

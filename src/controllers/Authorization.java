@@ -46,6 +46,12 @@ public class Authorization extends HttpServlet {
 				idOrder = OrdersQuery.createOrder(idUser);
 				System.out.println("idOrder = " + idOrder);
 				session.setAttribute("idOrder",idOrder);
+				
+				if (!OrdersQuery.orderNotEmpty(idOrder)) {
+					session.setAttribute("emptyOrder", 1);// Если заказ пустой - добавляем новый аттрибут сессии, чтобы
+																// скрыть кнопку "оформить заказ" в корзине"
+				} 
+				
 				System.out.println("Авторизация прошла");
 				response.sendRedirect("http://localhost:8080/GuitarOnline/GuitarsCatalog");
 			} else {
