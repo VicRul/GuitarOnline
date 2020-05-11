@@ -18,7 +18,7 @@
 <script src="http://code.jquery.com/jquery-1.8.3.js">
 		
 	</script>
-<script>
+	<script>
 		function delPos(id) {
 			var dataStr = "idGood=" + id + "&DelPos=yes";
 			$.ajax({
@@ -65,7 +65,8 @@
 					<th>№ Заказа: ${sessionScope.idCurentOrder}
 				</tr>
 			</table>
-			<br><br>
+			<br>
+			<br>
 			<c:forEach items="${goods}" var="good">
 				<table class="basketTable">
 					<tr>

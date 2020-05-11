@@ -51,10 +51,10 @@ public class Authorization extends HttpServlet {
 					session.setAttribute("emptyOrder", 1);// Если заказ пустой - добавляем новый аттрибут сессии, чтобы
 																// скрыть кнопку "оформить заказ" в корзине"
 				} 
-				
+				response.getWriter().print("Добро пожаловать!");
 				System.out.println("Авторизация прошла");
-				response.sendRedirect("http://localhost:8080/GuitarOnline/GuitarsCatalog");
 			} else {
+				response.getWriter().print("Учетные данны, попробуйте еще раз.");
 				System.out.println("Авторизация не прошла");
 			}
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException

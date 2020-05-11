@@ -371,6 +371,21 @@ aside {
 	margin-bottom: 5px;
 	border-bottom: 4px solid #FFCC79;
 }
+
+.btn-wrapper button {
+	width: calc(100% - 10px);
+	color: #123A63;
+	font-weight: 500;
+	background: #fff;
+	outline: none;
+	border: none;
+	cursor: pointer;
+	margin-top: 5px;
+	padding-bottom: 5px;
+	margin-bottom: 5px;
+	border-bottom: 4px solid #FFCC79;
+}
+
 /* блок для виджетов */
 .widget {
 	padding: 20px 15px;
