@@ -45,22 +45,25 @@
 				<span>U</span> <span>I</span> <span>T</span> <span>A</span> <span>R</span>
 				<span>S</span>
 			</a>
+			<ul id="menu">
+				<li><a href="Registration">Регистрация</a></li>
+			</ul>
 		</nav>
 	</header>
 	<div class="auth_container">
 		<div class="widget">
 			<h3 class="widget-title">Авторизация</h3>
-				<p>Введите свой e-mail:</p>
-				<div class="input">
-					<input type="text" id="mail">
-				</div>
-				<p>Введите пароль:</p>
-				<div class="input">
-					<input type="password" id="pass">
-				</div>
-				<div class="btn-wrapper">
-					<button onclick=result()>Войти</button>
-				</div>
+			<p>Введите свой e-mail:</p>
+			<div class="input">
+				<input type="text" id="mail">
+			</div>
+			<p>Введите пароль:</p>
+			<div class="input">
+				<input type="password" id="pass">
+			</div>
+			<div class="btn-wrapper">
+				<button onclick=result()>Войти</button>
+			</div>
 		</div>
 	</div>
 </body>

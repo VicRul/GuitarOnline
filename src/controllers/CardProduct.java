@@ -110,6 +110,7 @@ public class CardProduct extends HttpServlet {
 			}
 			request.getRequestDispatcher("WEB-INF/views/CardProduct.jsp").forward(request, response);
 		} else {
+			response.getWriter().print("Авторизуйтесь, чтобы добавить отзыв!");
 			System.out.println("Авторизуйтесь, чтобы добавить отзыв!");
 		}
 	}
