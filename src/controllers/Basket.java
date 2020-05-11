@@ -21,35 +21,37 @@ public class Basket extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(); // Включаем сессию
 
-		int idOrder = (int) session.getAttribute("idOrder");
+		int idOrder = (int) session.getAttribute("idOrder"); // Получаем ID заказа из текущей сессии
 
 		if (session.getAttribute("idLastOrder") != null) {
 			if (idOrder != (int) session.getAttribute("idLastOrder")) {
-				idOrder = (int) session.getAttribute("idLastOrder");
+				idOrder = (int) session.getAttribute("idLastOrder"); // Если из личного кабинета нажали на просмотр старого заказа, то получаем 
+																	// аттрибут сессии idLastOrder с выбранным ID заказа, присваеваем его текущему значению
+																	// idOrder и работаем с ним.
 			}
 		}
 
-		session.setAttribute("idCurentOrder", idOrder);
+		session.setAttribute("idCurentOrder", idOrder); // Текущее значение значение ID заказа добавлем в новый аттрибут сессии. 
+														// Он будет нужен для отображения элементов на странице
 
 		try {
-			if (request.getParameter("DelPos") != null) {
-				int idGood = Integer.parseInt(request.getParameter("idGood"));
-				System.out.println("idGood для удаления = " + idGood);
-				BasketQuery.removePositionFromBasket(idGood, idOrder);
+			if (request.getParameter("DelPos") != null) { // Если нажали на кнопку удаления позиции
+				int idGood = Integer.parseInt(request.getParameter("idGood")); // Получаем ID этой позиции 
+				BasketQuery.removePositionFromBasket(idGood, idOrder); // Удаляем
 			}
-			request.setAttribute("goods", BasketQuery.getGoodsFromBasket(idOrder));
-			request.setAttribute("totalSum", BasketQuery.getTempSumOrder(idOrder));
+			request.setAttribute("goods", BasketQuery.getGoodsFromBasket(idOrder)); // Выводим список товаров из корзины
+			request.setAttribute("totalSum", BasketQuery.getTempSumOrder(idOrder)); // // Выводим сумму заказа
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException
 				| InvocationTargetException | NoSuchMethodException | SecurityException | SQLException e) {
 
 			e.printStackTrace();
 		}
-		request.getRequestDispatcher("WEB-INF/views/Basket.jsp").forward(request, response);
+		request.getRequestDispatcher("WEB-INF/views/Basket.jsp").forward(request, response); // ОТправляем на страницу
 		try {
-			if (request.getParameter("SubOrder") != null) {
-				OrdersQuery.submitOrder(idOrder);
+			if (request.getParameter("SubOrder") != null) { // Если нажали на кнопку "оформить"
+				OrdersQuery.submitOrder(idOrder); // Оформляем заказ
 
 			}
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException
