@@ -85,7 +85,6 @@ public class GuitarsCatalog extends HttpServlet {
 					try {
 						idOrder = (int) session.getAttribute("idOrder"); // Получаем из сессии ID заказа
 						if (BasketQuery.addGoodsToBasket(idGood, idOrder)) { // Добавляем товар в корзину
-							session.removeAttribute("emptyOrder"); // Удаляем данные аттрибут для отображения кнопки "оформить заказ"
 							response.getWriter().print(
 									"Товар " + GoodsQuery.getGoodNameById(idGood) + " успешно добавлен в корзину!"); // Выводи сообщение
 						}

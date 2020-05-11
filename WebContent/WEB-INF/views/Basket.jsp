@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Личный кабинет</title>
+<title>Корзина</title>
 <link rel="stylesheet" type="text/css"
 	href="https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,600italic,700,700italic|Playfair+Display:400,700&subset=latin,cyrillic">
 <link rel="stylesheet" type="text/css"
@@ -36,8 +36,13 @@
 				type : "GET",
 				url : "Basket",
 				data : dataStr,
-				success : function() {
-					window.location.href = "Orders";
+				success : function(answer) {
+					alert(answer);
+					if(answer === "Оформление не возможно, карзина пуста!") {
+						window.location.href = "Basket";
+					} else {
+						window.location.href = "Orders";
+					}
 				}
 			});
 		}

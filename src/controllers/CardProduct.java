@@ -59,8 +59,6 @@ public class CardProduct extends HttpServlet {
 																		// нажали на кнопку "Добавить в корзину"
 				try {
 					if (BasketQuery.addGoodsToBasket(idGood, idOrder)) { // Добавляем товар в корзину
-						session.removeAttribute("emptyOrder"); // Удаляем аттрибут, чтобы отображалась кнопка оформления
-																// заказа, корзина больше не пуста
 						response.getWriter()
 								.print("Товар " + GoodsQuery.getGoodNameById(idGood) + " успешно добавлен в корзину!"); // Выводим
 																														// сообщение

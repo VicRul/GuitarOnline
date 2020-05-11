@@ -46,10 +46,6 @@ public class Authorization extends HttpServlet {
 				idOrder = OrdersQuery.createOrder(idUser);
 				session.setAttribute("idOrder",idOrder); // Создаем заказ и записываем в аттрибут сессии
 				
-				if (!OrdersQuery.orderNotEmpty(idOrder)) {
-					session.setAttribute("emptyOrder", 1);// Если заказ пустой - добавляем новый аттрибут сессии, чтобы
-																// скрыть кнопку "оформить заказ" в корзине. Нужно для просмотра прошлых заказов.
-				} 
 				response.getWriter().print("Добро пожаловать!"); // Выводим сообщение
 			} else {
 				response.getWriter().print("Учетные данные некорректны, попробуйте еще раз."); // Выводим сообщение
