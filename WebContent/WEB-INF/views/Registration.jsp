@@ -33,6 +33,12 @@
 					window.location.href = "Registration";
 				} else if (answer === "Необходимо заполнить все поля для регистрации") {
 					window.location.href = "Registration";
+				} else if (answer === "Имя может состоять только из строчных или заглавных русских, английских букв") {
+					window.location.href = "Registration";
+				} else if (answer === "Введите номер телефона в виде: XXX-XXX-XX-XX") {
+					window.location.href = "Registration";
+				} else if (answer === "Адрес электронной почты введен некорректно") {
+					window.location.href = "Registration";
 				} else {
 					window.location.href = "GuitarsCatalog";
 				}
@@ -54,15 +60,15 @@
 	<div class="auth_container">
 		<div class="widget">
 			<h3 class="widget-title">Регистрация</h3>
-			<p>Введите имя:</p>
+			<p>Введите имя (русские, английские строчные и заглавные буквы):</p>
 			<div class="input">
 				<input type="text" id="fio">
 			</div>
-			<p>Введите e-mail:</p>
+			<p>Введите e-mail (XXX@XXX.XXX):</p>
 			<div class="input">
 				<input type="text" id="mail">
 			</div>
-			<p>Введите номер телефона:</p>
+			<p>Введите номер телефона (XXX-XXX-XX-XX):</p>
 			<div class="input">
 				<input type="text" id="phone">
 			</div>
