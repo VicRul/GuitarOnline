@@ -27,7 +27,7 @@
             data: str,
 			success : function(answer) {
 				alert(answer);
-				if(answer === "Учетные данны, попробуйте еще раз.") {
+				if(answer === "Учетные данные некорректны, попробуйте еще раз.") {
 					window.location.href = "Authorization";
 				} else {
 					window.location.href = "GuitarsCatalog";

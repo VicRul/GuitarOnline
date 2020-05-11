@@ -54,7 +54,7 @@ public class Authorization extends HttpServlet {
 				response.getWriter().print("Добро пожаловать!");
 				System.out.println("Авторизация прошла");
 			} else {
-				response.getWriter().print("Учетные данны, попробуйте еще раз.");
+				response.getWriter().print("Учетные данные некорректны, попробуйте еще раз.");
 				System.out.println("Авторизация не прошла");
 			}
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException

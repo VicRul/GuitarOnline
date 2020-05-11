@@ -45,8 +45,8 @@ public class Registration extends HttpServlet {
 					
 					int idOrder = OrdersQuery.createOrder(idUser);
 					session.setAttribute("idOrder",idOrder);
+					response.getWriter().print("Добро пожаловать!");
 					System.out.println("Авторизация прошла");
-					response.sendRedirect("http://localhost:8080/GuitarOnline/GuitarsCatalog");
 				} else {
 					response.getWriter().print("Указанный номер телефона или почтовый ящик уже зарегистрированы");
 				}
